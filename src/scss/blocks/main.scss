@@ -1,0 +1,42 @@
+.main {
+    &__wrapper {
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        margin-top: 30px;
+        grid-gap: 20px;
+    }
+    &__item {
+        width: 100%;
+        height: 270px;
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        transition: .3s ease box-shadow;
+    }
+    &__item:hover {
+        box-shadow: 0px 0px 20px 8px #00000042;
+    }
+    &__img {
+        max-width: 100%;
+        // max-height: 100%;
+        // object-fit: fill;
+    }
+    &__icon {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 40px;
+        bottom: -40px;
+        background-color: #00000040;
+        transition: .5s ease-in-out bottom;
+        img {
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            margin: 0 10px;
+        }
+    }
+}

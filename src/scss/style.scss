@@ -1,0 +1,16 @@
+@import 'blocks/header.scss';
+@import 'blocks/main.scss';
+@import 'libs/fonts.scss';
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'SF UI Display';
+}
+
+.container {
+    width: 90%;
+    max-width: 1140px;
+    margin: 0 auto;
+}
