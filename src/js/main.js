@@ -1,73 +1,109 @@
 window.addEventListener('DOMContentLoaded', () => {
 
     class PhotoItem {
-        constructor(src, data) {
-            this.src = 'src';
+        constructor(alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage) {
+            this.alt = alt;
+            this.srcDownload = srcDownload;
+            this.srcSmall = srcSmall;
+            this.srcFullscreen = srcFullscreen;
+            this.authorName = authorName;
+            this.authorPage = authorPage;
             this.parent = document.querySelector('.main__wrapper');
-            this.data = this.getImage(this.url, this.key);
-            this.url = 'https://api.pexels.com/v1/curated?per_page=20';
-            this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
+            this.url = 'https://api.unsplash.com/photos/?client_id=KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
+            this.key = 'KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
         }
         render() {
-            
-            
-            console.log(this.data);
             const element =document.createElement('div');
 
             element.innerHTML = `
-                    <div class="main__item">
-                        <img class="main__img" src="${this.src}" alt="img">
-                        <div class="main__icon">
-                            <img src="assets/img/download.svg" alt="download">
-                            <img src="assets/img/heart_selected.svg" alt="selected">
-                            <img src="assets/img/fullscreen.svg" alt="fullscreen">
+                <div class="main__item">
+                    <img class="main__img" src="${this.srcSmall}" alt="${this.alt}">
+                    <div class="main__icon">
+                        <a href="${this.authorPage}">Автор: ${this.authorName}</a>
+                        <div class="icon__img">
+                            <a href = "${this.srcDownload}" download="1.jpg" rel="noopener">
+                                <img data-download="${this.srcDownload}" src="assets/img/download.svg" alt="download">
+                            </a>
+                            <img data-heart="${this.srcSmall}" src="assets/img/heart_selected.svg" alt="selected">
+                            <img data-fullscreen="${this.srcFullscreen}" src="assets/img/fullscreen.svg" alt="fullscreen">
                         </div>
                     </div>
-                `;
+                </div>
+            `;
             this.parent.append(element);
         }
-
-        async getImage() {
-            const res = await fetch(this.url, {
-                method: 'GET',
-                headers: {
-                    Accept: 'application/json',
-                    Authorization: this.key
-                }
-            });
-
-            if (!res.ok) {
-                throw new Error(`Could not fetch ${this.url}, status: ${res.status}`);
-            }
-
-            return await res.json();
-        }
-
-
-
     }
 
-    new PhotoItem().render();
+    // new PhotoItem().render();
+
     // new PhotoItem().getImage();
+
+    const url = 'https://api.unsplash.com/photos/',
+          API_KEY = 'Client-ID KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
+
+    const getImage = async (url, key) => { 
+        const res = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                Authorization: key
+            }
+        });
+
+        if (!res.ok) { 
+            throw new Error(`Could not fetch ${url}, status: ${res.status}`); 
+        }
+
+        return await res.json(); 
+    };
+
+    getImage(url, API_KEY)
+        .then(data => {
+            data.forEach(item => {
+                    new PhotoItem(
+                        item.alt_description, 
+                        item.links.download, 
+                        item.urls.small, 
+                        item.urls.full, 
+                        item.user.name, 
+                        item.user.links.html)
+                        .render();
+                        console.log(item);
+            });
+             const img = document.querySelectorAll('.main__item');
+             img.forEach(element => {
+                 element.addEventListener('mouseover', () => {
+                     console.log(element);
+                     element.querySelector('.main__icon').style.bottom = 0 + 'px';
+                 });
+             });
+             img.forEach(element => {
+                 element.addEventListener('mouseout', () => {
+                     element.querySelector('.main__icon').style.bottom = '-55' + 'px';
+                 });
+             });
+        });
+
+
 
     // getImage(url, API_KEY)
     //     .then(data => {
     //         data.photos.forEach((item) => {
     //             new PhotoItem(item.src.portrait, '.main__wrapper').render();
     //         });
-    //         const img = document.querySelectorAll('.main__item');
-    //         img.forEach(element => {
-    //             element.addEventListener('mouseover', () => {
-    //                 console.log(element);
-    //                 element.querySelector('.main__icon').style.bottom = 0 + 'px';
-    //             });
-    //         });
-    //         img.forEach(element => {
-    //             element.addEventListener('mouseout', () => {
-    //                 // console.log(element);
-    //                 element.querySelector('.main__icon').style.bottom = '-40' + 'px';
-    //             });
-    //         });
+            // const img = document.querySelectorAll('.main__item');
+            // img.forEach(element => {
+            //     element.addEventListener('mouseover', () => {
+            //         console.log(element);
+            //         element.querySelector('.main__icon').style.bottom = 0 + 'px';
+            //     });
+            // });
+            // img.forEach(element => {
+            //     element.addEventListener('mouseout', () => {
+            //         // console.log(element);
+            //         element.querySelector('.main__icon').style.bottom = '-40' + 'px';
+            //     });
+            // });
     //     });
 
 

@@ -38,9 +38,12 @@
             height: 16px;
             margin-right: 10px;
         }
-        a {
-            text-decoration: none;
-            color: #ffffff;
-        }
+    }
+    a {
+        text-decoration: none;
+        color: #ffffff;
+    }
+    a:hover {
+        font-weight: 700;
     }
 }

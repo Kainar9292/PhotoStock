@@ -3,10 +3,15 @@
 
     src: url('https://nomail.com.ua/files/eot/1de7a1b3209c5283a76d9b114fc2605f.eot?#iefix') format('embedded-opentype'),
         url('https://nomail.com.ua/files/woff/1de7a1b3209c5283a76d9b114fc2605f.woff') format('woff'),
-        url('https://nomail.com.ua/files/woff2/1de7a1b3209c5283a76d9b114fc2605f.woff2') format('woff2');
+        url('https://nomail.com.ua/files/woff2/1de7a1b3209c5283a76d9b114fc2605f.woff2') format('woff2'),
+        url('https://nomail.com.ua/files/eot/7e427ee9b99fcefb1560e6757a2d853e.eot?#iefix') format('embedded-opentype'),
+        url('https://nomail.com.ua/files/woff/7e427ee9b99fcefb1560e6757a2d853e.woff') format('woff'),
+        url('https://nomail.com.ua/files/woff2/7e427ee9b99fcefb1560e6757a2d853e.woff2') format('woff2');
 }
 
 @font-face {
     font-family: '.SFUIDisplay-Regular';
     src: local('.SFUIDisplay-Regular'), url('https://nomail.com.ua/files/woff/1de7a1b3209c5283a76d9b114fc2605f.woff') format('woff');
+     font-family: 'SFUIDisplay-Bold';
+     src: local('SFUIDisplay-Bold'), url('https://nomail.com.ua/files/woff/7e427ee9b99fcefb1560e6757a2d853e.woff') format('woff');
 }
