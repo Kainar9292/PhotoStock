@@ -523,29 +523,6 @@ module.exports = function (target, source) {
 
 /***/ }),
 
-/***/ "./node_modules/core-js/internals/create-html.js":
-/*!*******************************************************!*\
-  !*** ./node_modules/core-js/internals/create-html.js ***!
-  \*******************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/core-js/internals/require-object-coercible.js");
-
-var quot = /"/g;
-
-// B.2.3.2.1 CreateHTML(string, tag, attribute, value)
-// https://tc39.github.io/ecma262/#sec-createhtml
-module.exports = function (string, tag, attribute, value) {
-  var S = String(requireObjectCoercible(string));
-  var p1 = '<' + tag;
-  if (attribute !== '') p1 += ' ' + attribute + '="' + String(value).replace(quot, '&quot;') + '"';
-  return p1 + '>' + S + '</' + tag + '>';
-};
-
-
-/***/ }),
-
 /***/ "./node_modules/core-js/internals/create-non-enumerable-property.js":
 /*!**************************************************************************!*\
   !*** ./node_modules/core-js/internals/create-non-enumerable-property.js ***!
@@ -791,27 +768,6 @@ module.exports = function (exec) {
   } catch (error) {
     return true;
   }
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/internals/forced-string-html-method.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/core-js/internals/forced-string-html-method.js ***!
-  \*********************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/core-js/internals/fails.js");
-
-// check the existence of a method, lowercase
-// of a tag and escaping quotes in arguments
-module.exports = function (METHOD_NAME) {
-  return fails(function () {
-    var test = ''[METHOD_NAME]('"');
-    return test !== test.toLowerCase() || test.split('"').length > 3;
-  });
 };
 
 
@@ -2384,39 +2340,6 @@ $({ target: 'Array', proto: true, forced: [].forEach != forEach }, {
 
 /***/ }),
 
-/***/ "./node_modules/core-js/modules/es.function.name.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/core-js/modules/es.function.name.js ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/core-js/internals/descriptors.js");
-var defineProperty = __webpack_require__(/*! ../internals/object-define-property */ "./node_modules/core-js/internals/object-define-property.js").f;
-
-var FunctionPrototype = Function.prototype;
-var FunctionPrototypeToString = FunctionPrototype.toString;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
-
-// Function instances `.name` property
-// https://tc39.github.io/ecma262/#sec-function-instances-name
-if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
-  defineProperty(FunctionPrototype, NAME, {
-    configurable: true,
-    get: function () {
-      try {
-        return FunctionPrototypeToString.call(this).match(nameRE)[1];
-      } catch (error) {
-        return '';
-      }
-    }
-  });
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/core-js/modules/es.object.define-property.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/core-js/modules/es.object.define-property.js ***!
@@ -2843,30 +2766,6 @@ $({ target: PROMISE, stat: true, forced: INCORRECT_ITERATION }, {
     });
     if (result.error) reject(result.value);
     return capability.promise;
-  }
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/core-js/modules/es.string.small.js":
-/*!*********************************************************!*\
-  !*** ./node_modules/core-js/modules/es.string.small.js ***!
-  \*********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/core-js/internals/export.js");
-var createHTML = __webpack_require__(/*! ../internals/create-html */ "./node_modules/core-js/internals/create-html.js");
-var forcedStringHTMLMethod = __webpack_require__(/*! ../internals/forced-string-html-method */ "./node_modules/core-js/internals/forced-string-html-method.js");
-
-// `String.prototype.small` method
-// https://tc39.github.io/ecma262/#sec-string.prototype.small
-$({ target: 'String', proto: true, forced: forcedStringHTMLMethod('small') }, {
-  small: function small() {
-    return createHTML(this, 'small', '', '');
   }
 });
 
@@ -3681,22 +3580,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_concat__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.array.for-each */ "./node_modules/core-js/modules/es.array.for-each.js");
 /* harmony import */ var core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_for_each__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.function.name */ "./node_modules/core-js/modules/es.function.name.js");
-/* harmony import */ var core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_function_name__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
-/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
-/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
-/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var core_js_modules_es_string_small__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.string.small */ "./node_modules/core-js/modules/es.string.small.js");
-/* harmony import */ var core_js_modules_es_string_small__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_small__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
-/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
-/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_8__);
-
-
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.object.define-property */ "./node_modules/core-js/modules/es.object.define-property.js");
+/* harmony import */ var core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_define_property__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.promise */ "./node_modules/core-js/modules/es.promise.js");
+/* harmony import */ var core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_promise__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! regenerator-runtime/runtime */ "./node_modules/regenerator-runtime/runtime.js");
+/* harmony import */ var regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(regenerator_runtime_runtime__WEBPACK_IMPORTED_MODULE_6__);
 
 
 
@@ -3715,7 +3608,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var PhotoItem =
   /*#__PURE__*/
   function () {
-    function PhotoItem(alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage) {
+    function PhotoItem(alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
       _classCallCheck(this, PhotoItem);
 
       this.alt = alt;
@@ -3724,17 +3617,20 @@ window.addEventListener('DOMContentLoaded', function () {
       this.srcFullscreen = srcFullscreen;
       this.authorName = authorName;
       this.authorPage = authorPage;
-      this.parent = document.querySelector('.main__wrapper');
-      this.url = 'https://api.unsplash.com/photos/?client_id=KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
-      this.key = 'KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
+      this.parent = document.querySelectorAll('.main__photos');
+      this.url = 'https://api.pexels.com/v1/curated?per_page=12';
+      this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
+      this.counter = counter;
     }
 
     _createClass(PhotoItem, [{
       key: "render",
       value: function render() {
+        console.log(this.parent);
         var element = document.createElement('div');
+        element.classList.add('item');
         element.innerHTML = "\n                <div class=\"main__item\">\n                    <img class=\"main__img\" src=\"".concat(this.srcSmall, "\" alt=\"").concat(this.alt, "\">\n                    <div class=\"main__icon\">\n                        <a href=\"").concat(this.authorPage, "\">\u0410\u0432\u0442\u043E\u0440: ").concat(this.authorName, "</a>\n                        <div class=\"icon__img\">\n                            <a href = \"").concat(this.srcDownload, "\" download=\"1.jpg\" rel=\"noopener\">\n                                <img data-download=\"").concat(this.srcDownload, "\" src=\"assets/img/download.svg\" alt=\"download\">\n                            </a>\n                            <img data-heart=\"").concat(this.srcSmall, "\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                            <img data-fullscreen=\"").concat(this.srcFullscreen, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                        </div>\n                    </div>\n                </div>\n            ");
-        this.parent.append(element);
+        this.parent[this.counter].append(element);
       }
     }]);
 
@@ -3743,8 +3639,8 @@ window.addEventListener('DOMContentLoaded', function () {
   // new PhotoItem().getImage();
 
 
-  var url = 'https://api.unsplash.com/photos/',
-      API_KEY = 'Client-ID KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
+  var url = 'https://api.pexels.com/v1/curated?page=1',
+      API_KEY = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
 
   var getImage = function getImage(url, key) {
     var res;
@@ -3756,8 +3652,8 @@ window.addEventListener('DOMContentLoaded', function () {
             return regeneratorRuntime.awrap(fetch(url, {
               method: 'GET',
               headers: {
-                Accept: 'application/json',
-                Authorization: key
+                Accept: 'application/json' // Authorization: key
+
               }
             }));
 
@@ -3772,13 +3668,14 @@ window.addEventListener('DOMContentLoaded', function () {
             throw new Error("Could not fetch ".concat(url, ", status: ").concat(res.status));
 
           case 5:
-            _context.next = 7;
+            console.log(res);
+            _context.next = 8;
             return regeneratorRuntime.awrap(res.json());
 
-          case 7:
+          case 8:
             return _context.abrupt("return", _context.sent);
 
-          case 8:
+          case 9:
           case "end":
             return _context.stop();
         }
@@ -3787,9 +3684,16 @@ window.addEventListener('DOMContentLoaded', function () {
   };
 
   getImage(url, API_KEY).then(function (data) {
-    data.forEach(function (item) {
-      new PhotoItem(item.alt_description, item.links.download, item.urls.small, item.urls.full, item.user.name, item.user.links.html).render();
+    console.log(data);
+    var counter = 1;
+    data.photos.forEach(function (item) {
+      if (counter === 3) {
+        counter = 0;
+      }
+
       console.log(item);
+      new PhotoItem('pexels', item.src.original, item.src.medium, item.src.large, item.photographer, item.photographer_url, counter).render();
+      ++counter;
     });
     var img = document.querySelectorAll('.main__item');
     img.forEach(function (element) {
@@ -3803,26 +3707,91 @@ window.addEventListener('DOMContentLoaded', function () {
         element.querySelector('.main__icon').style.bottom = '-55' + 'px';
       });
     });
-  }); // getImage(url, API_KEY)
+  });
+  var inputSearch = document.querySelector('input');
+  inputSearch.addEventListener('keypress', function (e) {
+    if (e.which === 13) {
+      console.log(inputSearch.value);
+      var searchValue = "https://api.pexels.com/v1/search?query=".concat(inputSearch.value, "&per_page=21");
+      getImage(searchValue, API_KEY).then(function (data) {
+        console.log(data);
+        var counter = 1; // document.querySelector('.main__wrapper').innerHTML = '';
+
+        data.photos.forEach(function (item) {
+          console.log(item);
+
+          if (counter === 3) {
+            counter = 0;
+          }
+
+          new PhotoItem('pexels', item.src.original, item.src.medium, item.src.large, item.photographer, item.photographer_url, counter).render();
+          ++counter;
+        });
+        var img = document.querySelectorAll('.main__item');
+        img.forEach(function (element) {
+          element.addEventListener('mouseover', function () {
+            console.log(element);
+            element.querySelector('.main__icon').style.bottom = 0 + 'px';
+          });
+        });
+        img.forEach(function (element) {
+          element.addEventListener('mouseout', function () {
+            element.querySelector('.main__icon').style.bottom = '-55' + 'px';
+          });
+        });
+      });
+    }
+  });
+
+  function showModalByScroll() {
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+      openModal();
+      window.removeEventListener('scroll', showModalByScroll);
+    }
+  }
+
+  window.addEventListener('scroll', showModalByScroll); //      UNSPLASH
+  // const url = 'https://api.unsplash.com/photos/',
+  //       API_KEY = 'Client-ID KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
+  // const getImage = async (url, key) => { 
+  //     const res = await fetch(url, {
+  //         method: 'GET',
+  //         headers: {
+  //             Accept: 'application/json',
+  //             Authorization: key
+  //         }
+  //     });
+  //     if (!res.ok) { 
+  //         throw new Error(`Could not fetch ${url}, status: ${res.status}`); 
+  //     }
+  //     return await res.json(); 
+  // };
+  // getImage(url, API_KEY)
   //     .then(data => {
-  //         data.photos.forEach((item) => {
-  //             new PhotoItem(item.src.portrait, '.main__wrapper').render();
+  //         data.forEach(item => {
+  //             new PhotoItem(
+  //                     item.alt_description,
+  //                     item.links.download,
+  //                     item.urls.small,
+  //                     item.urls.full,
+  //                     item.user.name,
+  //                     item.user.links.html)
+  //                 .render();
+  //             console.log(item);
   //         });
-  // const img = document.querySelectorAll('.main__item');
-  // img.forEach(element => {
-  //     element.addEventListener('mouseover', () => {
-  //         console.log(element);
-  //         element.querySelector('.main__icon').style.bottom = 0 + 'px';
+  //         const img = document.querySelectorAll('.main__item');
+  //         img.forEach(element => {
+  //             element.addEventListener('mouseover', () => {
+  //                 console.log(element);
+  //                 element.querySelector('.main__icon').style.bottom = 0 + 'px';
+  //             });
+  //         });
+  //         img.forEach(element => {
+  //             element.addEventListener('mouseout', () => {
+  //                 element.querySelector('.main__icon').style.bottom = '-55' + 'px';
+  //             });
+  //         });
   //     });
-  // });
-  // img.forEach(element => {
-  //     element.addEventListener('mouseout', () => {
-  //         // console.log(element);
-  //         element.querySelector('.main__icon').style.bottom = '-40' + 'px';
-  //     });
-  // });
-  //     });
-  // console.log(img);
 });
 
 /***/ })
