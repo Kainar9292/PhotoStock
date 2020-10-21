@@ -3608,125 +3608,114 @@ window.addEventListener('DOMContentLoaded', function () {
   var PhotoItem =
   /*#__PURE__*/
   function () {
-    function PhotoItem(alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
+    function PhotoItem(url, alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
       _classCallCheck(this, PhotoItem);
 
-      this.alt = alt;
-      this.srcDownload = srcDownload;
-      this.srcSmall = srcSmall;
-      this.srcFullscreen = srcFullscreen;
-      this.authorName = authorName;
-      this.authorPage = authorPage;
+      this.url = url;
       this.parent = document.querySelectorAll('.main__photos');
       this.url = 'https://api.pexels.com/v1/curated?per_page=12';
       this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
-      this.counter = counter;
+      this.counter = 1;
+      this.inputSearch = document.querySelector('form');
+      this.pageIndex = 1;
     }
 
     _createClass(PhotoItem, [{
       key: "render",
-      value: function render() {
-        console.log(this.parent);
-        var element = document.createElement('div');
-        element.classList.add('item');
-        element.innerHTML = "\n                <div class=\"main__item\">\n                    <img class=\"main__img\" src=\"".concat(this.srcSmall, "\" alt=\"").concat(this.alt, "\">\n                    <div class=\"main__icon\">\n                        <a href=\"").concat(this.authorPage, "\">\u0410\u0432\u0442\u043E\u0440: ").concat(this.authorName, "</a>\n                        <div class=\"icon__img\">\n                            <a href = \"").concat(this.srcDownload, "\" download=\"1.jpg\" rel=\"noopener\">\n                                <img data-download=\"").concat(this.srcDownload, "\" src=\"assets/img/download.svg\" alt=\"download\">\n                            </a>\n                            <img data-heart=\"").concat(this.srcSmall, "\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                            <img data-fullscreen=\"").concat(this.srcFullscreen, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                        </div>\n                    </div>\n                </div>\n            ");
-        this.parent[this.counter].append(element);
-      }
-    }]);
+      value: function render(data) {
+        var _this = this;
 
-    return PhotoItem;
-  }(); // new PhotoItem().render();
-  // new PhotoItem().getImage();
-
-
-  var url = 'https://api.pexels.com/v1/curated?page=1',
-      API_KEY = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
-
-  var getImage = function getImage(url, key) {
-    var res;
-    return regeneratorRuntime.async(function getImage$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return regeneratorRuntime.awrap(fetch(url, {
-              method: 'GET',
-              headers: {
-                Accept: 'application/json' // Authorization: key
-
-              }
-            }));
-
-          case 2:
-            res = _context.sent;
-
-            if (res.ok) {
-              _context.next = 5;
-              break;
-            }
-
-            throw new Error("Could not fetch ".concat(url, ", status: ").concat(res.status));
-
-          case 5:
-            console.log(res);
-            _context.next = 8;
-            return regeneratorRuntime.awrap(res.json());
-
-          case 8:
-            return _context.abrupt("return", _context.sent);
-
-          case 9:
-          case "end":
-            return _context.stop();
-        }
-      }
-    });
-  };
-
-  getImage(url, API_KEY).then(function (data) {
-    console.log(data);
-    var counter = 1;
-    data.photos.forEach(function (item) {
-      if (counter === 3) {
-        counter = 0;
-      }
-
-      console.log(item);
-      new PhotoItem('pexels', item.src.original, item.src.medium, item.src.large, item.photographer, item.photographer_url, counter).render();
-      ++counter;
-    });
-    var img = document.querySelectorAll('.main__item');
-    img.forEach(function (element) {
-      element.addEventListener('mouseover', function () {
-        console.log(element);
-        element.querySelector('.main__icon').style.bottom = 0 + 'px';
-      });
-    });
-    img.forEach(function (element) {
-      element.addEventListener('mouseout', function () {
-        element.querySelector('.main__icon').style.bottom = '-55' + 'px';
-      });
-    });
-  });
-  var inputSearch = document.querySelector('input');
-  inputSearch.addEventListener('keypress', function (e) {
-    if (e.which === 13) {
-      console.log(inputSearch.value);
-      var searchValue = "https://api.pexels.com/v1/search?query=".concat(inputSearch.value, "&per_page=21");
-      getImage(searchValue, API_KEY).then(function (data) {
-        console.log(data);
-        var counter = 1; // document.querySelector('.main__wrapper').innerHTML = '';
-
+        // console.log(data.photos);
         data.photos.forEach(function (item) {
-          console.log(item);
+          var element = document.createElement('div');
+          element.classList.add('item');
 
-          if (counter === 3) {
-            counter = 0;
-          }
+          if (_this.counter === 3) {
+            _this.counter = 0;
+          } // console.log(item);
 
-          new PhotoItem('pexels', item.src.original, item.src.medium, item.src.large, item.photographer, item.photographer_url, counter).render();
-          ++counter;
+
+          element.innerHTML = "\n                    <div class=\"main__item\">\n                        <img class=\"main__img\" src=\"".concat(item.src.large, "\" alt=\"").concat(item.id, "\">\n                        <div class=\"main__icon\">\n                            <a href=\"").concat(item.photographer_url, "\">\u0410\u0432\u0442\u043E\u0440: ").concat(item.photographer, "</a>\n                            <div class=\"icon__img\">\n                                <a href = \"").concat(item.src.original, "\" download=\"1.jpg\" rel=\"noopener\">\n                                    <img data-download=\"").concat(item.src.original, "\" src=\"assets/img/download.svg\" alt=\"download\">\n                                </a>\n                                <img data-heart=\"").concat(item.src.large, "\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                                <img data-fullscreen=\"").concat(item.src.large, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                            </div>\n                        </div>\n                    </div>\n                    ");
+
+          _this.parent[_this.counter].append(element);
+
+          ++_this.counter;
         });
+        this.eventHandler();
+      }
+    }, {
+      key: "queryBase",
+      value: function queryBase(url) {
+        var res;
+        return regeneratorRuntime.async(function queryBase$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return regeneratorRuntime.awrap(fetch(url, {
+                  method: 'GET',
+                  headers: {
+                    Accept: 'application/json',
+                    Authorization: this.key
+                  }
+                }));
+
+              case 2:
+                res = _context.sent;
+
+                if (res.ok) {
+                  _context.next = 5;
+                  break;
+                }
+
+                throw new Error("Could not fetch ".concat(url, ", status: ").concat(res.status));
+
+              case 5:
+                _context.next = 7;
+                return regeneratorRuntime.awrap(res.json());
+
+              case 7:
+                return _context.abrupt("return", _context.sent);
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, null, this);
+      }
+    }, {
+      key: "getImage",
+      value: function getImage(url) {
+        var data;
+        return regeneratorRuntime.async(function getImage$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return regeneratorRuntime.awrap(this.queryBase("".concat(url)));
+
+              case 2:
+                data = _context2.sent;
+                this.render(data);
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, null, this);
+      }
+    }, {
+      key: "eventHandler",
+      value: function eventHandler() {
+        var _this2 = this;
+
+        //First start
+        // document.addEventListener('DOMContentLoaded', () => {
+        //     this.getImage(1);
+        // });
+        //Img item Handler
         var img = document.querySelectorAll('.main__item');
         img.forEach(function (element) {
           element.addEventListener('mouseover', function () {
@@ -3738,60 +3727,56 @@ window.addEventListener('DOMContentLoaded', function () {
           element.addEventListener('mouseout', function () {
             element.querySelector('.main__icon').style.bottom = '-55' + 'px';
           });
+        }); //Search Handler
+
+        this.inputSearch.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          _this2.parent.forEach(function (item) {
+            item.innerHTML = '';
+          });
+
+          var searchValue = _this2.inputSearch.querySelector('input');
+
+          var searchURL = "https://api.pexels.com/v1/search?query=".concat(searchValue.value, "&page=");
+          _this2.pageIndex = 1;
+
+          _this2.getImage(searchURL + _this2.pageIndex).then(window.addEventListener('scroll', function (e) {
+            return _this2.uploadingImage(searchURL);
+          }));
         });
-      });
-    }
-  });
+      }
+    }, {
+      key: "uploadingImage",
+      value: function uploadingImage(upload) {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+          // letpageIndex = ++this.pageIndex;
+          console.log(document.documentElement.scrollHeight);
+          console.log(window.pageYOffset + document.documentElement.clientHeight);
+          console.log(this.pageIndex);
+          console.log(upload);
+          this.getImage(upload + this.pageIndex);
+        }
+      }
+    }]);
 
-  function showModalByScroll() {
-    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-      openModal();
-      window.removeEventListener('scroll', showModalByScroll);
-    }
-  }
+    return PhotoItem;
+  }();
 
-  window.addEventListener('scroll', showModalByScroll); //      UNSPLASH
-  // const url = 'https://api.unsplash.com/photos/',
-  //       API_KEY = 'Client-ID KMpv9NNhT8QVFenMRMZcdnjMgsdq-ZljVOaoeAs3eZQ';
-  // const getImage = async (url, key) => { 
-  //     const res = await fetch(url, {
-  //         method: 'GET',
-  //         headers: {
-  //             Accept: 'application/json',
-  //             Authorization: key
-  //         }
-  //     });
-  //     if (!res.ok) { 
-  //         throw new Error(`Could not fetch ${url}, status: ${res.status}`); 
+  console.log(window.pageYOffset);
+  console.log(document.documentElement.clientHeight);
+  console.log(document.documentElement.scrollHeight);
+  var url = 'https://api.pexels.com/v1/curated?page=',
+      API_KEY = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd'; // new PhotoItem().render();
+
+  new PhotoItem().getImage('https://api.pexels.com/v1/curated?page=' + '1'); // new PhotoItem().eventHandler();
+  //     function showModalByScroll() {
+  // if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+  //     openModal();
+  //     window.removeEventListener('scroll', showModalByScroll);
+  // }
   //     }
-  //     return await res.json(); 
-  // };
-  // getImage(url, API_KEY)
-  //     .then(data => {
-  //         data.forEach(item => {
-  //             new PhotoItem(
-  //                     item.alt_description,
-  //                     item.links.download,
-  //                     item.urls.small,
-  //                     item.urls.full,
-  //                     item.user.name,
-  //                     item.user.links.html)
-  //                 .render();
-  //             console.log(item);
-  //         });
-  //         const img = document.querySelectorAll('.main__item');
-  //         img.forEach(element => {
-  //             element.addEventListener('mouseover', () => {
-  //                 console.log(element);
-  //                 element.querySelector('.main__icon').style.bottom = 0 + 'px';
-  //             });
-  //         });
-  //         img.forEach(element => {
-  //             element.addEventListener('mouseout', () => {
-  //                 element.querySelector('.main__icon').style.bottom = '-55' + 'px';
-  //             });
-  //         });
-  //     });
+  //     window.addEventListener('scroll', showModalByScroll);
 });
 
 /***/ })
