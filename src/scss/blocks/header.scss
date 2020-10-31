@@ -1,19 +1,29 @@
 .header {
         background-color: #000000;
-        line-height: 80px;
-        &__wrapper {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            a {
-                cursor: default;
-            }
+        position: fixed;
+        width: 100%;
+        top: 0;
+        transition: .3s ease box-shadow;
+        z-index: 10;
+    &__fixed {
+        position: relative;
+        z-index: 1;
+    }
+    &__wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 85px;
+        background-color: #000000;
+        z-index: 4;
+        a {
+            cursor: default;
         }
+    }
     &__logo {
         display: flex;
         justify-content: start;
         align-items: center;
-        width: 200px;
         height: 30px;
         color: #ffffff;
         font-size: 24px;
@@ -42,39 +52,49 @@
         }
     }
     a {
+        position: relative;
         text-decoration: none;
         color: #ffffff;
+        line-height: 1;
     }
-    a:hover {
-        font-weight: 700;
+    a:after {
+        display: block;
+        position: absolute;
+        left: 0;
+        /*изменить на right:0;, чтобы изменить направление подчёркивания */
+        width: 0;
+        /*задаём длинну линии до наведения курсора*/
+        height: 1px;
+        /*задаём ширину линии*/
+        background-color: #ffffff;
+        /*задаём цвет линии*/
+        content: "";
+        transition: width 0.3s ease-out;
+        /*задаём время анимации*/
     }
-    &__search {
-        background-color: #000000;
-        height: 90px;
+    a:hover:after,
+    a:focus:after {
         width: 100%;
-        color: #ffffff;
-        // transform: translateY(-150px);
+        // font-weight: 700;
+        // text-shadow: 1px 1px 2px black, 0 0 1em red;
+    }
+    &__item-active:after {
+        width: 100% !important;
     }
 
-    &__input {
-        input {
-            display: block;
-            width: 100%;
-            height: 45px;
-            background-color: #000000;
-            border: none;
-            border-bottom: 1px solid #ffffff;
-            color: #ffffff;
-            outline: none;
-            text-align: center;
-            font-size: 34px;
-            border-image: linear-gradient(to right, black, white, black);
-            border-image-slice: 1;
-        }
-        ::-webkit-input-placeholder {
-            color: #ffffff;
-            font-size: 34px;
-        }
+    &__search {
+        position: absolute;
+        top: 0px;
+        background-color: #000000;
+        height: 80px;
+        width: 100%;
+        color: #ffffff;
+        transition: .5s ease-in-out top;
+        z-index: -1;
+        // transform: translateY(-150px);
+    }
+    &__search-active {
+        top: 80px;
     }
     &__history {
         display: flex;

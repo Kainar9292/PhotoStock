@@ -9,49 +9,56 @@
 </head>
 <body>
     <header class="header">
-        <div class="container">
-            <div class="header__wrapper">
-                <a href="#">
-                    <div class="header__logo">
-                        <img src="assets/img/img_logo.svg" alt="logo_img">
-                        PhotoStock
-                    </div>
-                </a>
-                <nav>
-                    <ul class="header__menu">
-                        <li class="header__item">
-                            <a href="#"><img src="assets/img/search.svg" alt="search_img">Поиск</a>
-                        </li>
-                        <li class="header__item">  
-                            <a href="#"><img src="assets/img/heart.svg" alt="heart_img">Избранное</a> 
-                        </li>
-                        <li class="header__item">
-                            <a href="#"><img src="assets/img/history.svg" alt="search_img">История поиска</a>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-        </div>
-        <div class="header__search">
-            <div class="container">
-                <div class="header__wrapp">
-                    <div class="header__input">
-                        <form>
-                            <input type="text" placeholder="Поиск">
-                        </form>
-                    </div>
-                    <div class="header__history">
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
-                        <div class="history__item">computer</div>
+        <div class="header__fixed">
+            <div class="header__search">
+                <div class="container">
+                    <div class="header__wrapp">
+                        <div class="header__input">
+                            <form>
+                                <input type="text" placeholder="Поиск">
+                            </form>
+                        </div>
+                        <div class="header__history">
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                            <div class="history__item">computer</div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <div class="header__wrapper">
+                    <a href="#" class="header__item-active">
+                        <div class="header__logo">
+                            <img src="assets/img/img_logo.svg" alt="logo_img">
+                            PhotoStock
+                        </div>
+                    </a>
+                    <nav>
+                        <ul class="header__menu">
+                            <li class="header__item">
+                                <a href="#" data-menu="0" class="header__item-active"><img src="assets/img/home.svg"
+                                        alt="home_img">Главная</a>
+                            </li>
+                            <li class="header__item">
+                                <a href="#" data-menu="1"><img src="assets/img/search.svg" alt="search_img">Поиск</a>
+                            </li>
+                            <li class="header__item">
+                                <a href="#" data-menu="2"><img src="assets/img/heart.svg" alt="heart_img">Избранное</a>
+                            </li>
+                            <li class="header__item">
+                                <a href="#" data-menu="3"><img src="assets/img/history.svg" alt="search_img">История поиска</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
         </div>
+
     </header>
 
     <div class="main">
@@ -68,8 +75,8 @@
                                 <img data-fullscreen src="assets/img/fullscreen.svg" alt="fullscreen">
                             </div>
                         </div>
-                    </div>
-                    <div class="main__item">
+                    </div> -->
+                    <!-- <div class="main__item">
                         <img class="main__img" src="https://picsum.photos/600/800" alt="img">
                         <div class="main__icon">
                             <a href="#">Автор: Nathan Jons</a>
@@ -133,10 +140,10 @@
         </div>
     </div>
 
-    <header class="header">
+    <!-- <header class="header">
         <div class="container">
             <div class="header__wrapper">
-                <a href="#">
+                <a href="#" class="header__item-active">
                     <div class="header__logo">
                         <img src="assets/img/img_logo.svg" alt="logo_img">
                         PhotoStock
@@ -145,20 +152,23 @@
                 <nav>
                     <ul class="header__menu">
                         <li class="header__item">
-                            <a href="#"><img src="assets/img/search.svg" alt="search_img">Поиск</a>
+                            <a href="#" data-menu="0" class="header__item-active"><img src="assets/img/home.svg" alt="home_img">Главная</a>
                         </li>
                         <li class="header__item">
-                            <a href="#"><img src="assets/img/heart.svg" alt="heart_img">Избранное</a>
+                            <a href="#" data-menu="1"><img src="assets/img/search.svg" alt="search_img">Поиск</a>
                         </li>
                         <li class="header__item">
-                            <a href="#"><img src="assets/img/history.svg" alt="search_img">История поиска</a>
+                            <a href="#" data-menu="2"><img src="assets/img/heart.svg" alt="heart_img">Избранное</a>
+                        </li>
+                        <li class="header__item">
+                            <a href="#" data-menu="3"><img src="assets/img/history.svg" alt="search_img">История поиска</a>
                         </li>
                     </ul>
                 </nav>
             </div>
     
         </div>
-    </header>
+    </header> -->
 
     <script src="script.js"></script>
 </body>
