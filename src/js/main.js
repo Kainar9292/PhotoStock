@@ -2,28 +2,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
     class PhotoItem {
         constructor(url, alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
-            this.parent = document.querySelectorAll('.main__photos');
+            this.wrapper = document.querySelector('.main__wrapper');
             this.pageIndex = 1;
             this.url = `https://api.pexels.com/v1/curated?page=`;
             this.searchURL = 0;
             this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
             this.counter = 0;
+            // this.counterMax = 3;
             this.inputSearch = document.querySelector('form');
             this.inputSearch.setAttribute('data-load', 'base');
+            this.searchValue = document.querySelector('input');
             this.localSelected = JSON.parse(localStorage.getItem('data'));
-            this.searchHistory = JSON.parse(localStorage.getItem('data'));
-            this.getImage(this.url);
+            this.searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+            this.historyHeader = document.querySelector('.header__history');
+            window.onresize = () => window.location.reload();
             this.staticEventHandler();
+            this.getImage(this.url);
         }
+
         render(data) {
-            // console.log(data);
             data.photos.forEach(item => {
                 const element = document.createElement('div');
-                element.classList.add('item');
-                if (this.counter === 3) {
-                    this.counter = 0;
-                }
-                // console.log(item);
+                if (this.counter === this.counterMax) {this.counter = 0;}
                 element.innerHTML = `
                     <div class="main__item">
                         <img class="main__img" src="${item.src.large}" alt="${item.id}">
@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
                                     <img src="assets/img/download.svg" alt="download">
                                 </a>
                                 <img id="selected" src="assets/img/heart_selected.svg" alt="selected">
-                                <img data-fullscreen="${item.src.large}" src="assets/img/fullscreen.svg" alt="fullscreen">
+                                <img id="fullscreen" data-fullscreen="${item.src.large}" src="assets/img/fullscreen.svg" alt="fullscreen">
                             </div>
                         </div>
                     </div>
@@ -43,7 +43,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     ++this.counter;
                     this.dynamicEventHandler(element);
             });
-            // this.dynamicEventHandler();
         }
 
         async queryBase(url) {
@@ -51,7 +50,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
-                    Authorization: this.key,
+                    // Authorization: this.key,
                 }
             });
 
@@ -70,124 +69,114 @@ window.addEventListener('DOMContentLoaded', () => {
             // Img item Handler
             
             const itemHandler = (e, element) => {
-                if (e.target.id === 'selected') {
-                    console.log('yes');
-                    this.saveSelect(element);
-                }
+                if (e.target.id === 'selected') {this.saveSelect(element);}
+                if (e.target.id === 'fullscreen') { }
             };
             element.addEventListener('click', (e) => itemHandler(e, element));
+        }
+
+        dataBaseCheck(localBase, nameBase, base) {
+            if (JSON.parse(localStorage.getItem(nameBase))) {
+                localBase = JSON.parse(localStorage.getItem(nameBase));
+            } else {
+                localBase = localStorage.setItem(nameBase, JSON.stringify(base));
+                localBase = JSON.parse(localStorage.getItem(nameBase));
+            }
+        }
+
+        fullscreenImg() {
+            
         }
 
         saveSelect(element) {
             let src = element.querySelector('.main__img').getAttribute('src'),
                 alt = element.querySelector('.main__img').getAttribute('alt'),
                 authorPage = element.querySelector('a').getAttribute('href'),
-                authorName = element.querySelector('span').textContent;
-
-            let data = {
-                photos: [
-                     {
-                        src: {
-                            large: src
-                        },
-                        id: alt,
-                        photographer_url: authorPage,
-                        photographer: authorName
-                    }
-                ]
-            };
-            console.log(this.localSelected = JSON.parse(localStorage.getItem('data')));
-            if (JSON.parse(localStorage.getItem('data'))) {
-                this.localSelected = JSON.parse(localStorage.getItem('data'));
-            } else {
-                this.localSelected = localStorage.setItem('data', JSON.stringify({photos:[]}));
-                this.localSelected = JSON.parse(localStorage.getItem('data'));
-            }
-
+                authorName = element.querySelector('span').textContent,
+                data = {
+                    photos: [
+                        {
+                            src: {
+                                large: src
+                            },
+                            id: alt,
+                            photographer_url: authorPage,
+                            photographer: authorName
+                        }
+                    ]
+                },
+                firstData = {
+                    photos:[]
+                };
+            
+            
+            this.dataBaseCheck(this.localSelected, 'data', firstData);
             if (this.localSelected.photos.find(item => item.id == alt)) {
                 this.localSelected.photos.splice(this.localSelected.photos.findIndex(item => item.id == alt), 1);
-                    if (this.inputSearch.getAttribute('data-load') === 'selected') {
-                        element.remove();
-                    }   
+                    if (this.inputSearch.getAttribute('data-load') === 'selected') {element.remove();}   
                 localStorage.setItem('data', JSON.stringify(this.localSelected));
-                console.log('delete');
             } else {
                 let long = this.localSelected.photos.length;
                 this.localSelected.photos[long] = data.photos[0];
                 localStorage.setItem('data', JSON.stringify(this.localSelected));
-                console.log('add');
             }
-            
         }
         
         staticEventHandler() {
             //Menu
+            const menu = document.querySelectorAll('li'),
+                  searchBtn = document.querySelector('.header__search');
+                  
+            const generalFunc = (e, attrib) => {
+                hideActive();
+                e.target.classList.add('header__item-active');
+                searchBtn.classList.remove('header__search-active');
+                this.inputSearch.setAttribute('data-load', attrib);
+                this.clearHTML();
+            };
 
-            const menu = document.querySelectorAll('li');
-            const searchBtn = document.querySelector('.header__search');
             const menuSelected = (e) => {
                 const target = e.target;
                 if (target.dataset.menu === '0') {
-                    hideActive();
-                    searchBtn.classList.remove('header__search-active');
-                    e.target.classList.add('header__item-active');
-                    this.inputSearch.setAttribute('data-load', 'base');
-                    
-                    this.clearHTML();
+                    generalFunc(e, 'base');
                     this.getImage(this.url);
-                }
-                if (target.dataset.menu === '1') {
+                } else if (target.dataset.menu === '1') {
                     hideActive();
                     e.target.classList.add('header__item-active');
                     searchBtn.classList.toggle('header__search-active');
-                    
+                    this.searchValue.focus();
                     if (this.inputSearch.getAttribute('data-load') === 'search') {
                         this.inputSearch.setAttribute('data-load', 'base');
                     } else {
                         this.inputSearch.setAttribute('data-load', 'search');
                     }
-                }
-                if (target.dataset.menu === '2') {
-                    hideActive();
-                    e.target.classList.add('header__item-active');
-                    this.inputSearch.setAttribute('data-load', 'selected');
-                    this.clearHTML();
+                } else if (target.dataset.menu === '2') {
+                    generalFunc(e, 'selected');
                     this.counter = 0;
                     this.render(this.localSelected);
-                }
-                if (target.dataset.menu === '3') {
-                    hideActive();
-                    e.target.classList.add('header__item-active');
+                } else if (target.dataset.menu === '3') {
+                    generalFunc(e, 'history');
+                    this.historySearch(100, this.parent, 'history-display');
                 }
             };
 
             function hideActive() {
-                menu.forEach((item, e, l) =>  {
-                    item.firstElementChild.classList.remove('header__item-active');
-                });
+                menu.forEach(item => item.firstElementChild.classList.remove('header__item-active'));
             }
             
-            menu.forEach(item => {
-                item.addEventListener('click', menuSelected);
-            });
+            menu.forEach(item =>item.addEventListener('click', menuSelected));
 
 
             // UploadImage
             const uploadingImage = () => {
-                // e.preventDefault();
-                // window.removeEventListener('scroll', uploadingImage);
                 if (window.pageYOffset + document.documentElement.clientHeight + 100>= document.documentElement.scrollHeight) {
                     const loadAtrib = this.inputSearch.getAttribute('data-load');
                     if (loadAtrib === 'base') {
                         this.pageIndex = ++this.pageIndex;
                         this.getImage(this.url + this.pageIndex);
-                        console.log(this.url + this.pageIndex);
-                        // this.button.removeEventListener('submit', uploadingImage);
                     } else if (loadAtrib === 'search') {
                         this.pageIndex = ++this.pageIndex;
                         this.getImage(this.searchURL + this.pageIndex);
-                        console.log(this.searchURL + this.pageIndex);
-                        // this.button.removeEventListener('submit', uploadingImage);
                     }
 
                     window.removeEventListener('scroll', uploadingImage);
@@ -201,20 +190,71 @@ window.addEventListener('DOMContentLoaded', () => {
 
             //Search input
             const search = (e) => {
-              e.preventDefault();
-              this.clearHTML();
-              let searchValue = document.querySelector('input');
-              localStorage.setItem('searchHistory', JSON.stringify(searchValue.value));
-              this.searchURL = `https://api.pexels.com/v1/search?query=${searchValue.value}&page=`;
-              console.log(this.searchURL, searchValue.value);
-              this.getImage(this.searchURL + this.pageIndex);
-            //   this.inputSearch.removeEventListener('submit', search);
-              // this.button.removeEventListener('submit', uploadingImage);
+                e.preventDefault();
+                this.clearHTML();
+                let firstSearch = [];
+                
+                this.searchURL = `https://api.pexels.com/v1/search?query=${this.searchValue.value}&page=`;
+                this.getImage(this.searchURL + this.pageIndex);
+
+                // save massiv searchHistory
+
+                this.dataBaseCheck(this.searchHistory, 'searchHistory', firstSearch);
+                this.searchHistory = this.searchHistory || [];
+                this.searchHistory.push(this.searchValue.value);
+                localStorage.setItem('searchHistory', JSON.stringify(this.searchHistory));
+                this.historySearch(11, this.historyHeader, 'history__item');
             };
+
+            this.historyHeader.addEventListener('click', (e) => {
+                if (e.target.className === 'history__item') {
+                    this.searchValue.value = e.target.textContent;
+                    this.searchValue.focus();
+                }
+            });
+
             this.inputSearch.addEventListener('submit', search);
+            this.historySearch(11, this.historyHeader, 'history__item');
 
+            // this.historyHeader.addEventListener('click', this.historySearch);
+
+            // resize window
+
+            const resize = (e) => {
+                if (window.innerWidth >= 768) {this.counterMax = 3;} 
+                else if (window.innerWidth >= 450) {this.counterMax = 2;} 
+                else if (window.innerWidth <= 450) {this.counterMax = 1;} 
+                for (let i = 0; i < this.counterMax; i++) {
+                    let element = document.createElement('div');
+                    element.classList.add('main__photos');
+                    this.wrapper.append(element);
+                }
+                this.parent = this.wrapper.querySelectorAll('.main__photos');
+                this.counter = 0;
+            };
+            resize();
+        }
+
+        historySearch(i, caseInsert, nameBlock) {
+            if (this.inputSearch.getAttribute('data-load') === 'search') {this.historyHeader.innerHTML = '';}
             
+            let dbHistory = JSON.parse(localStorage.getItem('searchHistory')),
+                num = 0;
+            dbHistory.forEach((item, key) => {
+                if (key > (dbHistory.length - i)) {
+                    const element = document.createElement('div');
+                    element.classList.add(nameBlock);
+                    element.textContent = item;
+                    if (num >= this.counterMax) {num = 0;}
+                    if (caseInsert instanceof NodeList) {
+                            caseInsert[num].append(element);
+                            ++num;
+                    } else {
+                        caseInsert.append(element);
+                    }                    
+                }
 
+            });
         }
 
         clearHTML() {
@@ -233,8 +273,6 @@ window.addEventListener('DOMContentLoaded', () => {
     // new PhotoItem().render();
     new PhotoItem();
 
-
-    const menu = document.querySelectorAll('ul');
 
 
 });

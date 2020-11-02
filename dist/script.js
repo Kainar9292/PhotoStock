@@ -3940,18 +3940,26 @@ window.addEventListener('DOMContentLoaded', function () {
     function PhotoItem(url, alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
       _classCallCheck(this, PhotoItem);
 
-      this.parent = document.querySelectorAll('.main__photos');
+      this.wrapper = document.querySelector('.main__wrapper');
       this.pageIndex = 1;
       this.url = "https://api.pexels.com/v1/curated?page=";
       this.searchURL = 0;
       this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
-      this.counter = 0;
+      this.counter = 0; // this.counterMax = 3;
+
       this.inputSearch = document.querySelector('form');
       this.inputSearch.setAttribute('data-load', 'base');
+      this.searchValue = document.querySelector('input');
       this.localSelected = JSON.parse(localStorage.getItem('data'));
-      this.searchHistory = JSON.parse(localStorage.getItem('data'));
-      this.getImage(this.url);
+      this.searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+      this.historyHeader = document.querySelector('.header__history');
+
+      window.onresize = function () {
+        return window.location.reload();
+      };
+
       this.staticEventHandler();
+      this.getImage(this.url);
     }
 
     _createClass(PhotoItem, [{
@@ -3959,24 +3967,21 @@ window.addEventListener('DOMContentLoaded', function () {
       value: function render(data) {
         var _this = this;
 
-        // console.log(data);
         data.photos.forEach(function (item) {
           var element = document.createElement('div');
-          element.classList.add('item');
 
-          if (_this.counter === 3) {
+          if (_this.counter === _this.counterMax) {
             _this.counter = 0;
-          } // console.log(item);
+          }
 
-
-          element.innerHTML = "\n                    <div class=\"main__item\">\n                        <img class=\"main__img\" src=\"".concat(item.src.large, "\" alt=\"").concat(item.id, "\">\n                        <div class=\"main__icon\">\n                            <a href=\"").concat(item.photographer_url, "\">\u0410\u0432\u0442\u043E\u0440: <span>").concat(item.photographer, "</span> </a>\n                            <div class=\"icon__img\">\n                                <a href=\"https://www.pexels.com/photo/").concat(item.id, "/download\" rel = \"noopener\">\n                                    <img src=\"assets/img/download.svg\" alt=\"download\">\n                                </a>\n                                <img id=\"selected\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                                <img data-fullscreen=\"").concat(item.src.large, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                            </div>\n                        </div>\n                    </div>\n                    ");
+          element.innerHTML = "\n                    <div class=\"main__item\">\n                        <img class=\"main__img\" src=\"".concat(item.src.large, "\" alt=\"").concat(item.id, "\">\n                        <div class=\"main__icon\">\n                            <a href=\"").concat(item.photographer_url, "\">\u0410\u0432\u0442\u043E\u0440: <span>").concat(item.photographer, "</span> </a>\n                            <div class=\"icon__img\">\n                                <a href=\"https://www.pexels.com/photo/").concat(item.id, "/download\" rel = \"noopener\">\n                                    <img src=\"assets/img/download.svg\" alt=\"download\">\n                                </a>\n                                <img id=\"selected\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                                <img id=\"fullscreen\" data-fullscreen=\"").concat(item.src.large, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                            </div>\n                        </div>\n                    </div>\n                    ");
 
           _this.parent[_this.counter].append(element);
 
           ++_this.counter;
 
           _this.dynamicEventHandler(element);
-        }); // this.dynamicEventHandler();
+        });
       }
     }, {
       key: "queryBase",
@@ -3990,8 +3995,8 @@ window.addEventListener('DOMContentLoaded', function () {
                 return regeneratorRuntime.awrap(fetch(url, {
                   method: 'GET',
                   headers: {
-                    Accept: 'application/json',
-                    Authorization: this.key
+                    Accept: 'application/json' // Authorization: this.key,
+
                   }
                 }));
 
@@ -4017,7 +4022,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 return _context.stop();
             }
           }
-        }, null, this);
+        });
       }
     }, {
       key: "getImage",
@@ -4049,10 +4054,10 @@ window.addEventListener('DOMContentLoaded', function () {
         // Img item Handler
         var itemHandler = function itemHandler(e, element) {
           if (e.target.id === 'selected') {
-            console.log('yes');
-
             _this2.saveSelect(element);
           }
+
+          if (e.target.id === 'fullscreen') {}
         };
 
         element.addEventListener('click', function (e) {
@@ -4060,13 +4065,26 @@ window.addEventListener('DOMContentLoaded', function () {
         });
       }
     }, {
+      key: "dataBaseCheck",
+      value: function dataBaseCheck(localBase, nameBase, base) {
+        if (JSON.parse(localStorage.getItem(nameBase))) {
+          localBase = JSON.parse(localStorage.getItem(nameBase));
+        } else {
+          localBase = localStorage.setItem(nameBase, JSON.stringify(base));
+          localBase = JSON.parse(localStorage.getItem(nameBase));
+        }
+      }
+    }, {
+      key: "fullscreenImg",
+      value: function fullscreenImg() {}
+    }, {
       key: "saveSelect",
       value: function saveSelect(element) {
         var src = element.querySelector('.main__img').getAttribute('src'),
             alt = element.querySelector('.main__img').getAttribute('alt'),
             authorPage = element.querySelector('a').getAttribute('href'),
-            authorName = element.querySelector('span').textContent;
-        var data = {
+            authorName = element.querySelector('span').textContent,
+            data = {
           photos: [{
             src: {
               large: src
@@ -4075,17 +4093,11 @@ window.addEventListener('DOMContentLoaded', function () {
             photographer_url: authorPage,
             photographer: authorName
           }]
+        },
+            firstData = {
+          photos: []
         };
-        console.log(this.localSelected = JSON.parse(localStorage.getItem('data')));
-
-        if (JSON.parse(localStorage.getItem('data'))) {
-          this.localSelected = JSON.parse(localStorage.getItem('data'));
-        } else {
-          this.localSelected = localStorage.setItem('data', JSON.stringify({
-            photos: []
-          }));
-          this.localSelected = JSON.parse(localStorage.getItem('data'));
-        }
+        this.dataBaseCheck(this.localSelected, 'data', firstData);
 
         if (this.localSelected.photos.find(function (item) {
           return item.id == alt;
@@ -4099,12 +4111,10 @@ window.addEventListener('DOMContentLoaded', function () {
           }
 
           localStorage.setItem('data', JSON.stringify(this.localSelected));
-          console.log('delete');
         } else {
           var _long = this.localSelected.photos.length;
           this.localSelected.photos[_long] = data.photos[0];
           localStorage.setItem('data', JSON.stringify(this.localSelected));
-          console.log('add');
         }
       }
     }, {
@@ -4113,68 +4123,61 @@ window.addEventListener('DOMContentLoaded', function () {
         var _this3 = this;
 
         //Menu
-        var menu = document.querySelectorAll('li');
-        var searchBtn = document.querySelector('.header__search');
+        var menu = document.querySelectorAll('li'),
+            searchBtn = document.querySelector('.header__search');
+
+        var generalFunc = function generalFunc(e, attrib) {
+          hideActive();
+          e.target.classList.add('header__item-active');
+          searchBtn.classList.remove('header__search-active');
+
+          _this3.inputSearch.setAttribute('data-load', attrib);
+
+          _this3.clearHTML();
+        };
 
         var menuSelected = function menuSelected(e) {
           var target = e.target;
 
           if (target.dataset.menu === '0') {
-            hideActive();
-            searchBtn.classList.remove('header__search-active');
-            e.target.classList.add('header__item-active');
-
-            _this3.inputSearch.setAttribute('data-load', 'base');
-
-            _this3.clearHTML();
+            generalFunc(e, 'base');
 
             _this3.getImage(_this3.url);
-          }
-
-          if (target.dataset.menu === '1') {
+          } else if (target.dataset.menu === '1') {
             hideActive();
             e.target.classList.add('header__item-active');
             searchBtn.classList.toggle('header__search-active');
+
+            _this3.searchValue.focus();
 
             if (_this3.inputSearch.getAttribute('data-load') === 'search') {
               _this3.inputSearch.setAttribute('data-load', 'base');
             } else {
               _this3.inputSearch.setAttribute('data-load', 'search');
             }
-          }
-
-          if (target.dataset.menu === '2') {
-            hideActive();
-            e.target.classList.add('header__item-active');
-
-            _this3.inputSearch.setAttribute('data-load', 'selected');
-
-            _this3.clearHTML();
-
+          } else if (target.dataset.menu === '2') {
+            generalFunc(e, 'selected');
             _this3.counter = 0;
 
             _this3.render(_this3.localSelected);
-          }
+          } else if (target.dataset.menu === '3') {
+            generalFunc(e, 'history');
 
-          if (target.dataset.menu === '3') {
-            hideActive();
-            e.target.classList.add('header__item-active');
+            _this3.historySearch(100, _this3.parent, 'history-display');
           }
         };
 
         function hideActive() {
-          menu.forEach(function (item, e, l) {
-            item.firstElementChild.classList.remove('header__item-active');
+          menu.forEach(function (item) {
+            return item.firstElementChild.classList.remove('header__item-active');
           });
         }
 
         menu.forEach(function (item) {
-          item.addEventListener('click', menuSelected);
+          return item.addEventListener('click', menuSelected);
         }); // UploadImage
 
         var uploadingImage = function uploadingImage() {
-          // e.preventDefault();
-          // window.removeEventListener('scroll', uploadingImage);
           if (window.pageYOffset + document.documentElement.clientHeight + 100 >= document.documentElement.scrollHeight) {
             var loadAtrib = _this3.inputSearch.getAttribute('data-load');
 
@@ -4182,14 +4185,10 @@ window.addEventListener('DOMContentLoaded', function () {
               _this3.pageIndex = ++_this3.pageIndex;
 
               _this3.getImage(_this3.url + _this3.pageIndex);
-
-              console.log(_this3.url + _this3.pageIndex); // this.button.removeEventListener('submit', uploadingImage);
             } else if (loadAtrib === 'search') {
               _this3.pageIndex = ++_this3.pageIndex;
 
               _this3.getImage(_this3.searchURL + _this3.pageIndex);
-
-              console.log(_this3.searchURL + _this3.pageIndex); // this.button.removeEventListener('submit', uploadingImage);
             }
 
             window.removeEventListener('scroll', uploadingImage);
@@ -4206,17 +4205,85 @@ window.addEventListener('DOMContentLoaded', function () {
 
           _this3.clearHTML();
 
-          var searchValue = document.querySelector('input');
-          localStorage.setItem('searchHistory', JSON.stringify(searchValue.value));
-          _this3.searchURL = "https://api.pexels.com/v1/search?query=".concat(searchValue.value, "&page=");
-          console.log(_this3.searchURL, searchValue.value);
+          var firstSearch = [];
+          _this3.searchURL = "https://api.pexels.com/v1/search?query=".concat(_this3.searchValue.value, "&page=");
 
-          _this3.getImage(_this3.searchURL + _this3.pageIndex); //   this.inputSearch.removeEventListener('submit', search);
-          // this.button.removeEventListener('submit', uploadingImage);
+          _this3.getImage(_this3.searchURL + _this3.pageIndex); // save massiv searchHistory
 
+
+          _this3.dataBaseCheck(_this3.searchHistory, 'searchHistory', firstSearch);
+
+          _this3.searchHistory = _this3.searchHistory || [];
+
+          _this3.searchHistory.push(_this3.searchValue.value);
+
+          localStorage.setItem('searchHistory', JSON.stringify(_this3.searchHistory));
+
+          _this3.historySearch(11, _this3.historyHeader, 'history__item');
         };
 
+        this.historyHeader.addEventListener('click', function (e) {
+          if (e.target.className === 'history__item') {
+            _this3.searchValue.value = e.target.textContent;
+
+            _this3.searchValue.focus();
+          }
+        });
         this.inputSearch.addEventListener('submit', search);
+        this.historySearch(11, this.historyHeader, 'history__item'); // this.historyHeader.addEventListener('click', this.historySearch);
+        // resize window
+
+        var resize = function resize(e) {
+          if (window.innerWidth >= 768) {
+            _this3.counterMax = 3;
+          } else if (window.innerWidth >= 450) {
+            _this3.counterMax = 2;
+          } else if (window.innerWidth <= 450) {
+            _this3.counterMax = 1;
+          }
+
+          for (var i = 0; i < _this3.counterMax; i++) {
+            var element = document.createElement('div');
+            element.classList.add('main__photos');
+
+            _this3.wrapper.append(element);
+          }
+
+          _this3.parent = _this3.wrapper.querySelectorAll('.main__photos');
+          _this3.counter = 0;
+        };
+
+        resize();
+      }
+    }, {
+      key: "historySearch",
+      value: function historySearch(i, caseInsert, nameBlock) {
+        var _this4 = this;
+
+        if (this.inputSearch.getAttribute('data-load') === 'search') {
+          this.historyHeader.innerHTML = '';
+        }
+
+        var dbHistory = JSON.parse(localStorage.getItem('searchHistory')),
+            num = 0;
+        dbHistory.forEach(function (item, key) {
+          if (key > dbHistory.length - i) {
+            var element = document.createElement('div');
+            element.classList.add(nameBlock);
+            element.textContent = item;
+
+            if (num >= _this4.counterMax) {
+              num = 0;
+            }
+
+            if (caseInsert instanceof NodeList) {
+              caseInsert[num].append(element);
+              ++num;
+            } else {
+              caseInsert.append(element);
+            }
+          }
+        });
       }
     }, {
       key: "clearHTML",
@@ -4235,7 +4302,6 @@ window.addEventListener('DOMContentLoaded', function () {
       API_KEY = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd'; // new PhotoItem().render();
 
   new PhotoItem();
-  var menu = document.querySelectorAll('ul');
 });
 
 /***/ })

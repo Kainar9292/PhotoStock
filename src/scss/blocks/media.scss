@@ -1,0 +1,20 @@
+@media (max-width: 1600px) {
+    .main__wrapper {
+        columns: 3;
+    }
+}
+
+@media (max-width: 767px) {
+    .main__wrapper {
+        columns: 2;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    .main__wrapper {
+        columns: 1;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+}
