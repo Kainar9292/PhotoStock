@@ -3937,7 +3937,7 @@ window.addEventListener('DOMContentLoaded', function () {
   var PhotoItem =
   /*#__PURE__*/
   function () {
-    function PhotoItem(url, alt, srcDownload, srcSmall, srcFullscreen, authorName, authorPage, counter) {
+    function PhotoItem() {
       _classCallCheck(this, PhotoItem);
 
       this.wrapper = document.querySelector('.main__wrapper');
@@ -3945,13 +3945,12 @@ window.addEventListener('DOMContentLoaded', function () {
       this.url = "https://api.pexels.com/v1/curated?page=";
       this.searchURL = 0;
       this.key = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd';
-      this.counter = 0; // this.counterMax = 3;
-
+      this.counter = 0;
       this.inputSearch = document.querySelector('form');
       this.inputSearch.setAttribute('data-load', 'base');
       this.searchValue = document.querySelector('input');
-      this.localSelected = JSON.parse(localStorage.getItem('data'));
-      this.searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+      this.localSelected = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : undefined;
+      this.searchHistory = localStorage.getItem('searchHistory') != null ? JSON.parse(localStorage.getItem('searchHistory')) : undefined;
       this.historyHeader = document.querySelector('.header__history');
 
       window.onresize = function () {
@@ -3960,7 +3959,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
       this.staticEventHandler();
       this.getImage(this.url);
-    }
+    } // generate HTML img
+
 
     _createClass(PhotoItem, [{
       key: "render",
@@ -3974,7 +3974,7 @@ window.addEventListener('DOMContentLoaded', function () {
             _this.counter = 0;
           }
 
-          element.innerHTML = "\n                    <div class=\"main__item\">\n                        <img class=\"main__img\" src=\"".concat(item.src.large, "\" alt=\"").concat(item.id, "\">\n                        <div class=\"main__icon\">\n                            <a href=\"").concat(item.photographer_url, "\">\u0410\u0432\u0442\u043E\u0440: <span>").concat(item.photographer, "</span> </a>\n                            <div class=\"icon__img\">\n                                <a href=\"https://www.pexels.com/photo/").concat(item.id, "/download\" rel = \"noopener\">\n                                    <img src=\"assets/img/download.svg\" alt=\"download\">\n                                </a>\n                                <img id=\"selected\" src=\"assets/img/heart_selected.svg\" alt=\"selected\">\n                                <img id=\"fullscreen\" data-fullscreen=\"").concat(item.src.large, "\" src=\"assets/img/fullscreen.svg\" alt=\"fullscreen\">\n                            </div>\n                        </div>\n                    </div>\n                    ");
+          element.innerHTML = "\n                    <div class=\"main__item\">\n                        <img class=\"main__img\" src=\"".concat(item.src.large, "\" alt=\"").concat(item.id, "\">\n                        <div class=\"main__icon\">\n                            <a class=\"main__author\" href=\"").concat(item.photographer_url, "\">\u0410\u0432\u0442\u043E\u0440: <span>").concat(item.photographer, "</span></a>\n                            <div class=\"icon__img\">\n                                <a class=\"main__download\" href=\"https://www.pexels.com/photo/").concat(item.id, "/download\" rel=\"noopener\">\n                                    <i>\n                                        <svg fill=\"#C0C0C0\" xmlns = \"http://www.w3.org/2000/svg\" width = \"40\" height = \"40\" viewBox = \"0 0 30 30\">\n                                            <g><path d=\"M29.063 30h-1.407a.935.935 0 01-.937-.938c0-.519.418-.937.937-.937h1.407c.519 0 .937.418.937.938 0 .519-.418.937-.938.937zm0 0M2.344 30H.938A.935.935 0 010 29.062c0-.519.418-.937.938-.937h1.406c.52 0 .937.418.937.938 0 .519-.418.937-.937.937zm0 0M24.375 30H5.625a.935.935 0 01-.938-.938c0-.519.418-.937.938-.937h18.75c.52 0 .938.418.938.938 0 .519-.418.937-.938.937zm0 0M15 25.988a2.694 2.694 0 01-1.906-.785l-7.899-7.898A3.248 3.248 0 014.242 15a3.229 3.229 0 013.234-3.242h.008c.88 0 1.735.351 2.348.969l1.887 1.886V3.281A3.286 3.286 0 0115 0a3.286 3.286 0 013.281 3.281v11.332l1.914-1.918a3.248 3.248 0 012.305-.953 3.229 3.229 0 013.242 3.234 3.335 3.335 0 01-.969 2.356l-7.867 7.871a2.694 2.694 0 01-1.906.785zM7.484 13.633H7.48c-.37 0-.714.14-.964.394a1.374 1.374 0 00-.399.973c0 .371.145.715.406.977l7.899 7.898a.82.82 0 001.16 0l7.867-7.867c.266-.27.418-.64.418-1.028 0-.37-.14-.714-.394-.964a1.374 1.374 0 00-.973-.399c-.371 0-.715.145-.977.406l-3.515 3.516a.936.936 0 01-1.602-.664V3.281a1.405 1.405 0 10-2.813 0v13.594a.936.936 0 01-1.6.664l-3.485-3.488a1.458 1.458 0 00-1.024-.418zm0 0\"/>\n                                            </g>\n                                        </svg>\n                                    </i>\n                                </a>\n                                <i data-selected>\n                                    <svg data-selected fill = \"#C0C0C0\" xmlns = \"http://www.w3.org/2000/svg\" width = \"40\" height = \"40\" viewBox = \"0 0 30 30\" >\n                                        <path data-selected d=\"M27.852 4.215C26.437 2.832 24.48 2.14 21.98 2.14a6.69 6.69 0 00-2.113.359 8.452 8.452 0 00-2.008.973c-.62.406-1.152.789-1.597 1.144-.45.356-.871.735-1.274 1.137a15.235 15.235 0 00-1.27-1.137c-.448-.355-.98-.738-1.597-1.144a8.6 8.6 0 00-2.008-.973 6.713 6.713 0 00-2.117-.36c-2.5 0-4.457.692-5.871 2.075C.707 5.598 0 7.515 0 9.969c0 .75.133 1.52.395 2.308.261.793.558 1.47.894 2.028.332.554.715 1.097 1.137 1.629.422.53.734.894.93 1.097.195.2.347.344.457.434l10.44 10.07c.2.2.446.3.735.3.29 0 .535-.1.739-.3l10.421-10.039c2.551-2.55 3.829-5.062 3.829-7.527 0-2.453-.707-4.371-2.125-5.754zm-3.16 11.71l-9.704 9.352L5.27 15.91c-2.086-2.086-3.13-4.066-3.13-5.941 0-.903.122-1.7.36-2.39.242-.692.547-1.243.922-1.65a4.425 4.425 0 011.363-.995 6.002 6.002 0 011.57-.516 9.55 9.55 0 011.641-.137c.582 0 1.203.145 1.875.43.668.281 1.285.64 1.848 1.07.562.43 1.047.828 1.445 1.203.402.375.738.715 1.004 1.028.203.246.477.37.82.37.348 0 .621-.124.82-.37.27-.313.602-.653 1.005-1.028a19.44 19.44 0 011.445-1.203c.566-.43 1.18-.789 1.851-1.07.668-.285 1.293-.43 1.871-.43.582 0 1.13.047 1.641.137.512.086 1.04.262 1.574.516.535.257.989.59 1.364.996.37.406.68.957.918 1.648.242.692.359 1.488.359 2.39 0 1.876-1.047 3.86-3.145 5.958zm0 0\"/>\n                                    </svg>\n                                </i>\n                                <i data-screen>\n                                    <svg data-screen fill=\"#C0C0C0\" xmlns = \"http://www.w3.org/2000/svg\" width = \"40\" height = \"40\" viewBox = \"0 0 30 30\" >\n                                        <g>\n                                            <path data-screen d=\"M7.227 4.688h1.68a1.875 1.875 0 000-3.75H2.811c-1.035 0-1.874.84-1.874 1.875v6.093a1.875 1.875 0 003.75 0v-1.68l5.996 5.997a1.793 1.793 0 002.53-.008c.7-.7.704-1.828.009-2.531zm5.332 7.87a.853.853 0 01-1.211 0L4.55 5.763a.468.468 0 00-.8.332l-.001 2.812c0 .52-.418.938-.938.938a.935.935 0 01-.937-.938V2.812a.94.94 0 01.938-.937h6.093c.52 0 .938.418.938.938 0 .519-.418.937-.938.937H6.094a.468.468 0 00-.332.8l6.797 6.798a.853.853 0 010 1.21zm0 0M11.953 16.254a1.778 1.778 0 00-1.27.523l-5.995 5.996v-1.68a1.875 1.875 0 00-3.75 0v6.095c0 1.035.84 1.875 1.875 1.875h6.093a1.875 1.875 0 000-3.75h-1.68l5.997-5.997a1.793 1.793 0 00-1.27-3.062zm.606 2.398L5.762 25.45a.468.468 0 00.332.8l2.812.001c.52 0 .938.418.938.938 0 .519-.418.937-.938.937H2.812a.94.94 0 01-.937-.938v-6.093c0-.52.418-.938.938-.938.519 0 .937.418.937.938v2.812a.468.468 0 00.8.332l6.798-6.797a.853.853 0 011.21 0 .853.853 0 010 1.211zm0 0M27.188.938h-6.094a1.875 1.875 0 000 3.75h1.68l-5.997 5.996a1.793 1.793 0 00.008 2.53c.7.7 1.828.704 2.531.009l5.997-5.996v1.68a1.875 1.875 0 003.75 0V2.811c0-1.035-.84-1.874-1.875-1.874zm.937 7.968c0 .52-.418.938-.938.938a.935.935 0 01-.937-.938V6.094a.468.468 0 00-.8-.332l-6.798 6.797a.853.853 0 01-1.21 0 .853.853 0 010-1.211l6.796-6.797a.468.468 0 00-.332-.8l-2.812-.001a.935.935 0 01-.938-.938c0-.519.418-.937.938-.937h6.093a.94.94 0 01.938.938zm0 0M27.188 19.219c-1.036 0-1.875.84-1.875 1.875v1.68l-5.997-5.997a1.793 1.793 0 00-2.53.008c-.7.7-.704 1.828-.009 2.531l5.996 5.997h-1.68a1.875 1.875 0 000 3.75h6.095c1.035 0 1.875-.84 1.875-1.875v-6.094c0-1.035-.84-1.875-1.875-1.875zm.937 7.968a.94.94 0 01-.938.938h-6.093a.935.935 0 01-.938-.938c0-.519.418-.937.938-.937h2.812a.468.468 0 00.332-.8l-6.797-6.798a.853.853 0 010-1.21.853.853 0 011.211 0l6.797 6.796a.468.468 0 00.8-.332l.001-2.812c0-.52.418-.938.938-.938.519 0 .937.418.937.938zm0 0\"/>\n                                        </g>\n                                    </svg> \n                                </i>\n                            </div>\n                        </div>\n                    </div>\n                    ");
 
           _this.parent[_this.counter].append(element);
 
@@ -3982,7 +3982,8 @@ window.addEventListener('DOMContentLoaded', function () {
 
           _this.dynamicEventHandler(element);
         });
-      }
+      } // fetch to DB Pexels
+
     }, {
       key: "queryBase",
       value: function queryBase(url) {
@@ -3991,39 +3992,44 @@ window.addEventListener('DOMContentLoaded', function () {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                this.statusMessage = document.createElement('img');
+                this.statusMessage.src = 'assets/img/spinner.svg';
+                this.statusMessage.classList.add('main__spinner');
+                this.wrapper.insertAdjacentElement('afterend', this.statusMessage);
+                _context.next = 6;
                 return regeneratorRuntime.awrap(fetch(url, {
                   method: 'GET',
                   headers: {
-                    Accept: 'application/json' // Authorization: this.key,
-
+                    Accept: 'application/json',
+                    Authorization: this.key
                   }
                 }));
 
-              case 2:
+              case 6:
                 res = _context.sent;
 
                 if (res.ok) {
-                  _context.next = 5;
+                  _context.next = 9;
                   break;
                 }
 
                 throw new Error("Could not fetch ".concat(url, ", status: ").concat(res.status));
 
-              case 5:
-                _context.next = 7;
+              case 9:
+                _context.next = 11;
                 return regeneratorRuntime.awrap(res.json());
 
-              case 7:
+              case 11:
                 return _context.abrupt("return", _context.sent);
 
-              case 8:
+              case 12:
               case "end":
                 return _context.stop();
             }
           }
-        });
-      }
+        }, null, this);
+      } //get image in DB
+
     }, {
       key: "getImage",
       value: function getImage(url) {
@@ -4037,15 +4043,17 @@ window.addEventListener('DOMContentLoaded', function () {
 
               case 2:
                 data = _context2.sent;
+                this.statusMessage.remove();
                 this.render(data);
 
-              case 4:
+              case 5:
               case "end":
                 return _context2.stop();
             }
           }
         }, null, this);
-      }
+      } //dynamical EventHandler
+
     }, {
       key: "dynamicEventHandler",
       value: function dynamicEventHandler(element) {
@@ -4053,57 +4061,62 @@ window.addEventListener('DOMContentLoaded', function () {
 
         // Img item Handler
         var itemHandler = function itemHandler(e, element) {
-          if (e.target.id === 'selected') {
+          if (e.target.getAttribute('data-selected') == '') {
             _this2.saveSelect(element);
+          } else if (e.target.getAttribute('data-screen') == "") {
+            _this2.fullscreenImg(element);
           }
-
-          if (e.target.id === 'fullscreen') {}
         };
 
         element.addEventListener('click', function (e) {
           return itemHandler(e, element);
         });
-      }
+      } //common variables for fullscreenImg() and saveSelect()
+
     }, {
-      key: "dataBaseCheck",
-      value: function dataBaseCheck(localBase, nameBase, base) {
-        if (JSON.parse(localStorage.getItem(nameBase))) {
-          localBase = JSON.parse(localStorage.getItem(nameBase));
-        } else {
-          localBase = localStorage.setItem(nameBase, JSON.stringify(base));
-          localBase = JSON.parse(localStorage.getItem(nameBase));
-        }
-      }
+      key: "pictureVariables",
+      value: function pictureVariables(element) {
+        this.src = element.querySelector('.main__img').getAttribute('src'), this.alt = element.querySelector('.main__img').getAttribute('alt'), this.authorPage = element.querySelector('a').getAttribute('href'), this.authorName = element.querySelector('span').textContent;
+      } // fullscreenImg on click
+
     }, {
       key: "fullscreenImg",
-      value: function fullscreenImg() {}
+      value: function fullscreenImg(element) {
+        this.showModal.classList.toggle('show');
+        this.selectFull = element;
+        this.pictureVariables(element);
+        document.querySelector('.main__fullscreen .main__download').setAttribute('href', "https://www.pexels.com/photo/".concat(this.alt, "/download"));
+        document.querySelector('.main__size').src = this.src;
+        document.querySelector('.main__fullscreen .main__author').setAttribute('href', this.authorPage);
+        document.querySelector('.main__fullscreen span').textContent = this.authorName; //   imageModal.src = imageSize.getAttribute('src');
+      } // save pictures to DB and remove is DB
+
     }, {
       key: "saveSelect",
       value: function saveSelect(element) {
-        var src = element.querySelector('.main__img').getAttribute('src'),
-            alt = element.querySelector('.main__img').getAttribute('alt'),
-            authorPage = element.querySelector('a').getAttribute('href'),
-            authorName = element.querySelector('span').textContent,
-            data = {
+        var _this3 = this;
+
+        this.pictureVariables(element);
+        var data = {
           photos: [{
             src: {
-              large: src
+              large: this.src
             },
-            id: alt,
-            photographer_url: authorPage,
-            photographer: authorName
+            id: this.alt,
+            photographer_url: this.authorPage,
+            photographer: this.authorName
           }]
         },
             firstData = {
           photos: []
         };
-        this.dataBaseCheck(this.localSelected, 'data', firstData);
+        this.localSelected = this.localSelected || firstData;
 
         if (this.localSelected.photos.find(function (item) {
-          return item.id == alt;
+          return item.id == _this3.alt;
         })) {
           this.localSelected.photos.splice(this.localSelected.photos.findIndex(function (item) {
-            return item.id == alt;
+            return item.id == _this3.alt;
           }), 1);
 
           if (this.inputSearch.getAttribute('data-load') === 'selected') {
@@ -4111,16 +4124,19 @@ window.addEventListener('DOMContentLoaded', function () {
           }
 
           localStorage.setItem('data', JSON.stringify(this.localSelected));
+          this.notifications('Удалено из избранных');
         } else {
           var _long = this.localSelected.photos.length;
           this.localSelected.photos[_long] = data.photos[0];
           localStorage.setItem('data', JSON.stringify(this.localSelected));
+          this.notifications('Добавлено в избранное');
         }
-      }
+      } // statical DB on page load
+
     }, {
       key: "staticEventHandler",
       value: function staticEventHandler() {
-        var _this3 = this;
+        var _this4 = this;
 
         //Menu
         var menu = document.querySelectorAll('li'),
@@ -4131,9 +4147,9 @@ window.addEventListener('DOMContentLoaded', function () {
           e.target.classList.add('header__item-active');
           searchBtn.classList.remove('header__search-active');
 
-          _this3.inputSearch.setAttribute('data-load', attrib);
+          _this4.inputSearch.setAttribute('data-load', attrib);
 
-          _this3.clearHTML();
+          _this4.clearHTML();
         };
 
         var menuSelected = function menuSelected(e) {
@@ -4142,28 +4158,26 @@ window.addEventListener('DOMContentLoaded', function () {
           if (target.dataset.menu === '0') {
             generalFunc(e, 'base');
 
-            _this3.getImage(_this3.url);
+            _this4.getImage(_this4.url);
           } else if (target.dataset.menu === '1') {
             hideActive();
             e.target.classList.add('header__item-active');
-            searchBtn.classList.toggle('header__search-active');
+            searchBtn.classList.add('header__search-active');
 
-            _this3.searchValue.focus();
+            _this4.inputSearch.setAttribute('data-load', 'search');
 
-            if (_this3.inputSearch.getAttribute('data-load') === 'search') {
-              _this3.inputSearch.setAttribute('data-load', 'base');
-            } else {
-              _this3.inputSearch.setAttribute('data-load', 'search');
-            }
+            _this4.searchValue.focus();
           } else if (target.dataset.menu === '2') {
             generalFunc(e, 'selected');
-            _this3.counter = 0;
+            _this4.counter = 0;
 
-            _this3.render(_this3.localSelected);
+            if (JSON.parse(localStorage.getItem('data'))) {
+              _this4.render(_this4.localSelected);
+            }
           } else if (target.dataset.menu === '3') {
             generalFunc(e, 'history');
 
-            _this3.historySearch(100, _this3.parent, 'history-display');
+            _this4.historySearch(100, _this4.parent, 'history-display');
           }
         };
 
@@ -4175,20 +4189,20 @@ window.addEventListener('DOMContentLoaded', function () {
 
         menu.forEach(function (item) {
           return item.addEventListener('click', menuSelected);
-        }); // UploadImage
+        }); // UploadImage to scroll
 
         var uploadingImage = function uploadingImage() {
           if (window.pageYOffset + document.documentElement.clientHeight + 100 >= document.documentElement.scrollHeight) {
-            var loadAtrib = _this3.inputSearch.getAttribute('data-load');
+            var loadAtrib = _this4.inputSearch.getAttribute('data-load');
 
             if (loadAtrib === 'base') {
-              _this3.pageIndex = ++_this3.pageIndex;
+              _this4.pageIndex = ++_this4.pageIndex;
 
-              _this3.getImage(_this3.url + _this3.pageIndex);
+              _this4.getImage(_this4.url + _this4.pageIndex);
             } else if (loadAtrib === 'search') {
-              _this3.pageIndex = ++_this3.pageIndex;
+              _this4.pageIndex = ++_this4.pageIndex;
 
-              _this3.getImage(_this3.searchURL + _this3.pageIndex);
+              _this4.getImage(_this4.searchURL + _this4.pageIndex);
             }
 
             window.removeEventListener('scroll', uploadingImage);
@@ -4203,88 +4217,145 @@ window.addEventListener('DOMContentLoaded', function () {
         var search = function search(e) {
           e.preventDefault();
 
-          _this3.clearHTML();
+          _this4.clearHTML();
 
           var firstSearch = [];
-          _this3.searchURL = "https://api.pexels.com/v1/search?query=".concat(_this3.searchValue.value, "&page=");
+          _this4.searchURL = "https://api.pexels.com/v1/search?query=".concat(_this4.searchValue.value, "&page=");
 
-          _this3.getImage(_this3.searchURL + _this3.pageIndex); // save massiv searchHistory
+          _this4.getImage(_this4.searchURL + _this4.pageIndex); // save massiv searchHistory
 
 
-          _this3.dataBaseCheck(_this3.searchHistory, 'searchHistory', firstSearch);
+          _this4.searchHistory = _this4.searchHistory || [];
 
-          _this3.searchHistory = _this3.searchHistory || [];
+          _this4.searchHistory.push(_this4.searchValue.value);
 
-          _this3.searchHistory.push(_this3.searchValue.value);
+          localStorage.setItem('searchHistory', JSON.stringify(_this4.searchHistory));
 
-          localStorage.setItem('searchHistory', JSON.stringify(_this3.searchHistory));
-
-          _this3.historySearch(11, _this3.historyHeader, 'history__item');
+          _this4.historySearch(11, _this4.historyHeader, 'history__item');
         };
 
         this.historyHeader.addEventListener('click', function (e) {
           if (e.target.className === 'history__item') {
-            _this3.searchValue.value = e.target.textContent;
+            _this4.searchValue.value = e.target.textContent;
 
-            _this3.searchValue.focus();
+            _this4.searchValue.focus();
           }
         });
         this.inputSearch.addEventListener('submit', search);
-        this.historySearch(11, this.historyHeader, 'history__item'); // this.historyHeader.addEventListener('click', this.historySearch);
-        // resize window
+        this.historySearch(11, this.historyHeader, 'history__item'); // resize window
 
         var resize = function resize(e) {
           if (window.innerWidth >= 768) {
-            _this3.counterMax = 3;
+            _this4.counterMax = 3;
           } else if (window.innerWidth >= 450) {
-            _this3.counterMax = 2;
+            _this4.counterMax = 2;
           } else if (window.innerWidth <= 450) {
-            _this3.counterMax = 1;
+            _this4.counterMax = 1;
           }
 
-          for (var i = 0; i < _this3.counterMax; i++) {
+          for (var i = 0; i < _this4.counterMax; i++) {
             var element = document.createElement('div');
             element.classList.add('main__photos');
 
-            _this3.wrapper.append(element);
+            _this4.wrapper.append(element);
           }
 
-          _this3.parent = _this3.wrapper.querySelectorAll('.main__photos');
-          _this3.counter = 0;
+          _this4.parent = _this4.wrapper.querySelectorAll('.main__photos');
+          _this4.counter = 0;
         };
 
-        resize();
-      }
+        resize(); //event handler for opening fullscreen
+
+        this.showModal = document.querySelector('.main__screen');
+        this.showModal.addEventListener('click', function (e) {
+          if (e.target.getAttribute('data-close') == '') {
+            _this4.showModal.classList.toggle('show');
+          } else if (e.target.getAttribute('data-selected') == '') {
+            _this4.saveSelect(_this4.selectFull);
+          }
+        }); // active arrow when Scrolling
+
+        var goTopBtn = document.querySelector('.back_to_top');
+
+        function trackScroll() {
+          var scrolled = window.pageYOffset,
+              coords = document.documentElement.clientHeight;
+
+          if (scrolled > coords) {
+            goTopBtn.classList.add('back_to_top-show');
+          } else {
+            goTopBtn.classList.remove('back_to_top-show');
+          }
+        }
+
+        function backToTop() {
+          if (window.pageYOffset > 0) {
+            window.scrollBy(0, -80);
+            setTimeout(backToTop, 15);
+          }
+        }
+
+        window.addEventListener('scroll', trackScroll);
+        goTopBtn.addEventListener('click', backToTop); // hamburger for mobile adaptation
+
+        var menuHamburger = document.querySelector('.header__menu'),
+            hamburger = document.querySelector('.header__hamburger');
+        hamburger.addEventListener('click', function () {
+          hamburger.classList.toggle('header__hamburger-active');
+          menuHamburger.classList.toggle('header__menu-active');
+        });
+        menu.forEach(function (item) {
+          item.addEventListener('click', function () {
+            hamburger.classList.toggle('header__hamburger-active');
+            menuHamburger.classList.toggle('header__menu-active');
+          });
+        });
+      } // generation of history from database to html
+
     }, {
       key: "historySearch",
       value: function historySearch(i, caseInsert, nameBlock) {
-        var _this4 = this;
+        var _this5 = this;
 
         if (this.inputSearch.getAttribute('data-load') === 'search') {
           this.historyHeader.innerHTML = '';
         }
 
-        var dbHistory = JSON.parse(localStorage.getItem('searchHistory')),
-            num = 0;
-        dbHistory.forEach(function (item, key) {
-          if (key > dbHistory.length - i) {
-            var element = document.createElement('div');
-            element.classList.add(nameBlock);
-            element.textContent = item;
+        var num = 0;
 
-            if (num >= _this4.counterMax) {
-              num = 0;
-            }
+        if (this.searchHistory) {
+          this.searchHistory.forEach(function (item, key) {
+            if (key > _this5.searchHistory.length - i) {
+              var element = document.createElement('div');
+              element.classList.add(nameBlock);
+              element.textContent = item;
 
-            if (caseInsert instanceof NodeList) {
-              caseInsert[num].append(element);
-              ++num;
-            } else {
-              caseInsert.append(element);
+              if (num >= _this5.counterMax) {
+                num = 0;
+              }
+
+              if (caseInsert instanceof NodeList) {
+                caseInsert[num].append(element);
+                ++num;
+              } else {
+                caseInsert.append(element);
+              }
             }
-          }
-        });
-      }
+          });
+        }
+      } // notifications when adding and removing images to favorites
+
+    }, {
+      key: "notifications",
+      value: function notifications(text) {
+        var notiSource = document.querySelector('.notifications');
+        notiSource.textContent = text;
+        notiSource.classList.toggle('fade');
+        setTimeout(function () {
+          return notiSource.classList.toggle('fade');
+        }, 2000);
+      } //clearing the html to load new data
+
     }, {
       key: "clearHTML",
       value: function clearHTML() {
@@ -4298,10 +4369,7 @@ window.addEventListener('DOMContentLoaded', function () {
     return PhotoItem;
   }();
 
-  var url = 'https://api.pexels.com/v1/curated?page=',
-      API_KEY = '563492ad6f917000010000016afa1c811bb44f909546a673c92caebd'; // new PhotoItem().render();
-
-  new PhotoItem();
+  new PhotoItem(); // triger
 });
 
 /***/ })

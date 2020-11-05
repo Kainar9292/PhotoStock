@@ -7,3 +7,48 @@
     transition: .5s ease-in-out bottom;
     display: block;
 }
+
+.fade {
+    animation-name: fade;
+    animation-duration: 5s;
+}
+
+.notifications {
+    opacity: 1;
+    z-index: 99999;
+    transition: opacity 1s;
+    background-color: black;
+    color: #fff;
+    padding: 8px;
+    border-radius: 8px;
+    line-height: 35px;
+    position: fixed;
+    top: 90%;
+    right: 5%;
+}
+
+.notifications.fade {
+    opacity: 0;
+    z-index: -1;
+}
+
+.back_to_top {
+    position: fixed;
+    bottom: 80px;
+    right: 5%;
+    z-index: 9999;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+    border-radius: 2px;
+    display: none;
+    svg {
+        width: 40px;
+    }
+}
+
+.back_to_top-show {
+    display: block;
+}

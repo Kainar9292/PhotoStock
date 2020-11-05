@@ -39,6 +39,26 @@
         align-items: center;
         color: #ffffff;
     }
+    &__input {
+        input {
+            display: block;
+            width: 100%;
+            height: 45px;
+            background-color: #000000;
+            border: none;
+            border-bottom: 1px solid #ffffff;
+            color: #ffffff;
+            outline: none;
+            text-align: center;
+            font-size: 34px;
+            border-image: linear-gradient(to right, black, white, black);
+            border-image-slice: 1;
+        }
+        ::-webkit-input-placeholder {
+            color: #ffffff;
+            font-size: 34px;
+        }
+    }
     &__item {
         list-style-type: none;
         margin: 0 20px;
@@ -61,22 +81,15 @@
         display: block;
         position: absolute;
         left: 0;
-        /*изменить на right:0;, чтобы изменить направление подчёркивания */
         width: 0;
-        /*задаём длинну линии до наведения курсора*/
         height: 1px;
-        /*задаём ширину линии*/
         background-color: #ffffff;
-        /*задаём цвет линии*/
         content: "";
         transition: width 0.3s ease-out;
-        /*задаём время анимации*/
     }
     a:hover:after,
     a:focus:after {
         width: 100%;
-        // font-weight: 700;
-        // text-shadow: 1px 1px 2px black, 0 0 1em red;
     }
     &__item-active:after {
         width: 100% !important;
@@ -91,7 +104,6 @@
         color: #ffffff;
         transition: .5s ease-in-out top;
         z-index: -1;
-        // transform: translateY(-150px);
     }
     &__search-active {
         top: 80px;
@@ -110,6 +122,9 @@
     &__wrapp {
         display: flex;
         flex-direction: column;
+    }
+    &__hamburger {
+        display: none;
     }
 
 }
