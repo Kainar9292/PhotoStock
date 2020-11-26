@@ -13,9 +13,9 @@ window.addEventListener('DOMContentLoaded', () => {
             this.localSelected = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : undefined;
             this.searchHistory = localStorage.getItem('searchHistory') != null ? JSON.parse(localStorage.getItem('searchHistory')) : undefined;
             this.historyHeader = document.querySelector('.header__history');
-            window.onresize = () => window.location.reload();
+            // window.onresize = () => window.location.reload();
             this.staticEventHandler();
-            this.getImage(this.url);
+            // this.getImage(this.url);
         }
 
         // generate HTML img
@@ -30,12 +30,10 @@ window.addEventListener('DOMContentLoaded', () => {
                             <a class="main__author" href="${item.photographer_url}">Автор: <span>${item.photographer}</span></a>
                             <div class="icon__img">
                                 <a class="main__download" href="https://www.pexels.com/photo/${item.id}/download" rel="noopener">
-                                    <i>
-                                        <svg fill="#C0C0C0" xmlns = "http://www.w3.org/2000/svg" width = "40" height = "40" viewBox = "0 0 30 30">
-                                            <g><path d="M29.063 30h-1.407a.935.935 0 01-.937-.938c0-.519.418-.937.937-.937h1.407c.519 0 .937.418.937.938 0 .519-.418.937-.938.937zm0 0M2.344 30H.938A.935.935 0 010 29.062c0-.519.418-.937.938-.937h1.406c.52 0 .937.418.937.938 0 .519-.418.937-.937.937zm0 0M24.375 30H5.625a.935.935 0 01-.938-.938c0-.519.418-.937.938-.937h18.75c.52 0 .938.418.938.938 0 .519-.418.937-.938.937zm0 0M15 25.988a2.694 2.694 0 01-1.906-.785l-7.899-7.898A3.248 3.248 0 014.242 15a3.229 3.229 0 013.234-3.242h.008c.88 0 1.735.351 2.348.969l1.887 1.886V3.281A3.286 3.286 0 0115 0a3.286 3.286 0 013.281 3.281v11.332l1.914-1.918a3.248 3.248 0 012.305-.953 3.229 3.229 0 013.242 3.234 3.335 3.335 0 01-.969 2.356l-7.867 7.871a2.694 2.694 0 01-1.906.785zM7.484 13.633H7.48c-.37 0-.714.14-.964.394a1.374 1.374 0 00-.399.973c0 .371.145.715.406.977l7.899 7.898a.82.82 0 001.16 0l7.867-7.867c.266-.27.418-.64.418-1.028 0-.37-.14-.714-.394-.964a1.374 1.374 0 00-.973-.399c-.371 0-.715.145-.977.406l-3.515 3.516a.936.936 0 01-1.602-.664V3.281a1.405 1.405 0 10-2.813 0v13.594a.936.936 0 01-1.6.664l-3.485-3.488a1.458 1.458 0 00-1.024-.418zm0 0"/>
-                                            </g>
-                                        </svg>
-                                    </i>
+                                    <svg fill="#C0C0C0" xmlns = "http://www.w3.org/2000/svg" width = "40" height = "40" viewBox = "0 0 30 30">
+                                        <g><path d="M29.063 30h-1.407a.935.935 0 01-.937-.938c0-.519.418-.937.937-.937h1.407c.519 0 .937.418.937.938 0 .519-.418.937-.938.937zm0 0M2.344 30H.938A.935.935 0 010 29.062c0-.519.418-.937.938-.937h1.406c.52 0 .937.418.937.938 0 .519-.418.937-.937.937zm0 0M24.375 30H5.625a.935.935 0 01-.938-.938c0-.519.418-.937.938-.937h18.75c.52 0 .938.418.938.938 0 .519-.418.937-.938.937zm0 0M15 25.988a2.694 2.694 0 01-1.906-.785l-7.899-7.898A3.248 3.248 0 014.242 15a3.229 3.229 0 013.234-3.242h.008c.88 0 1.735.351 2.348.969l1.887 1.886V3.281A3.286 3.286 0 0115 0a3.286 3.286 0 013.281 3.281v11.332l1.914-1.918a3.248 3.248 0 012.305-.953 3.229 3.229 0 013.242 3.234 3.335 3.335 0 01-.969 2.356l-7.867 7.871a2.694 2.694 0 01-1.906.785zM7.484 13.633H7.48c-.37 0-.714.14-.964.394a1.374 1.374 0 00-.399.973c0 .371.145.715.406.977l7.899 7.898a.82.82 0 001.16 0l7.867-7.867c.266-.27.418-.64.418-1.028 0-.37-.14-.714-.394-.964a1.374 1.374 0 00-.973-.399c-.371 0-.715.145-.977.406l-3.515 3.516a.936.936 0 01-1.602-.664V3.281a1.405 1.405 0 10-2.813 0v13.594a.936.936 0 01-1.6.664l-3.485-3.488a1.458 1.458 0 00-1.024-.418zm0 0"/>
+                                        </g>
+                                    </svg>
                                 </a>
                                 <i data-selected>
                                     <svg data-selected fill = "#C0C0C0" xmlns = "http://www.w3.org/2000/svg" width = "40" height = "40" viewBox = "0 0 30 30" >
@@ -59,12 +57,33 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // fetch to DB Pexels
-        async queryBase(url) {
+        spinnerToHtml() {
             this.statusMessage = document.createElement('img');
             this.statusMessage.src = 'assets/img/spinner.svg';
             this.statusMessage.classList.add('main__spinner');
+            const statusSpinner = document.querySelector('.main__spinner');
+            console.log(Boolean(statusSpinner));
+            if (!statusSpinner) {
+                this.wrapper.insertAdjacentElement('afterend', this.statusMessage);
+            } else {
+                statusSpinner.remove();
+            }
+        }
+
+        // fetch to DB Pexels
+        async queryBase(url) {
+
+            //spinner to Download 
+            this.statusMessage = document.createElement('img');
+            this.statusMessage.src = 'assets/img/spinner.svg';
+            this.statusMessage.classList.add('main__spinner');
+            const statusSpinner = document.querySelector('.main__spinner');
+            if (statusSpinner) {
+                statusSpinner.remove();
+            }
             this.wrapper.insertAdjacentElement('afterend', this.statusMessage);
+
+            //Fetch DB
             const res = await fetch(url, {
                 method: 'GET',
                 headers: {
@@ -82,8 +101,10 @@ window.addEventListener('DOMContentLoaded', () => {
         //get image in DB
         async getImage(url) {
             const data = await this.queryBase(url);
-            this.statusMessage.remove();
             this.render(data);
+
+            //remove spinner
+            this.statusMessage.remove();
         }
 
         //dynamical EventHandler
@@ -178,7 +199,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     hideActive();
                     e.target.classList.add('header__item-active');
                     searchBtn.classList.add('header__search-active');
-                    this.inputSearch.setAttribute('data-load', 'search');
+                    
                     this.searchValue.focus();
                 } else if (target.dataset.menu === '2') {
                     generalFunc(e, 'selected');
@@ -186,7 +207,6 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (JSON.parse(localStorage.getItem('data'))) {
                         this.render(this.localSelected);
                     }
-                    
                 } else if (target.dataset.menu === '3') {
                     generalFunc(e, 'history');
                     this.historySearch(100, this.parent, 'history-display');
@@ -224,6 +244,7 @@ window.addEventListener('DOMContentLoaded', () => {
             //Search input
             const search = (e) => {
                 e.preventDefault();
+                this.inputSearch.setAttribute('data-load', 'search');
                 this.clearHTML();
                 let firstSearch = [];
                 
@@ -247,20 +268,28 @@ window.addEventListener('DOMContentLoaded', () => {
             this.inputSearch.addEventListener('submit', search);
             this.historySearch(11, this.historyHeader, 'history__item');
 
-
             // resize window
             const resize = (e) => {
+                let changeCounter = this.counterMax;
                 if (window.innerWidth >= 768) {this.counterMax = 3;} 
-                else if (window.innerWidth >= 450) {this.counterMax = 2;} 
-                else if (window.innerWidth <= 450) {this.counterMax = 1;} 
-                for (let i = 0; i < this.counterMax; i++) {
-                    let element = document.createElement('div');
-                    element.classList.add('main__photos');
-                    this.wrapper.append(element);
-                }
-                this.parent = this.wrapper.querySelectorAll('.main__photos');
-                this.counter = 0;
+                else if (window.innerWidth > 575) {this.counterMax = 2;} 
+                else if (window.innerWidth <= 575) {this.counterMax = 1;}
+                if (changeCounter != this.counterMax) {
+                    this.wrapper.innerHTML = '';
+                    for (let i = 0; i < this.counterMax; i++) {
+                        let element = document.createElement('div');
+                        element.classList.add('main__photos');
+                        this.wrapper.append(element);
+                    }
+                    this.parent = this.wrapper.querySelectorAll('.main__photos');
+                    this.counter = 0;
+                    this.inputSearch.setAttribute('data-load', 'base');
+                    this.getImage(this.url);
+                } 
+
             };
+
+            window.addEventListener('resize', resize);
             resize();
 
             //event handler for opening fullscreen

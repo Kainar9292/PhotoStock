@@ -88,8 +88,7 @@
         &__history {
             line-height: 20px;
             height: 20px;
-            font-size: 12px;
-
+            font-size: 12px;   
         }
         &__item {
             font-size: 20px;
@@ -114,16 +113,14 @@
             grid-template-columns: repeat(2, 1fr);
             padding: 20px 0;
         }
-        &__icon {
-            height: 60px;
-        }
         &__spinner {
             width: 30px;
         }
         .icon__img svg {
-            width: 20px;
-            height: 20px;
-            margin: 0px 10px;
+            margin: 0px 15px;
+        }
+        .icon__img i {
+            padding: 5px;
         }
         .icon-screen {
             height: 65px;
@@ -136,30 +133,30 @@
         &__wrapp {
             padding: 0 20px;
         }
-        &__hamburger {
-            width: 26px;
-            height: 12px;
-            span {
-                margin-bottom: 2px;
-                width: 100%;
-            }
-            &-active {
-                span {
-                    margin-bottom: -2px;
-                    span:nth-child(1) {
-                        transform: translateY(3px) rotate(-45deg);
-                    }
+        // &__hamburger {
+        //     width: 26px;
+        //     height: 12px;
+        //     span {
+        //         margin-bottom: 2px;
+        //         width: 100%;
+        //     }
+        //     &-active {
+        //         span {
+        //             margin-bottom: -2px;
+        //             span:nth-child(1) {
+        //                 transform: translateY(3px) rotate(-45deg);
+        //             }
 
-                    span:nth-child(2) {
-                        display: none;
-                    }
+        //             span:nth-child(2) {
+        //                 display: none;
+        //             }
 
-                    span:nth-child(3) {
-                        transform: translateY(3px) rotate(45deg);
-                    }
-                }
-            }
-        }
+        //             span:nth-child(3) {
+        //                 transform: translateY(3px) rotate(45deg);
+        //             }
+        //         }
+        //     }
+        // }
         &__menu {
             width: 60%;
             padding: 90px 0 0 8%;
@@ -173,11 +170,7 @@
                 margin-right: 5px;
             }
         }
-        &__wrapper {
-            height: 40px;
-        }
         &__logo {
-            font-size: 16px;
             img {
                 width: 25px;
                 height: 25px;
@@ -186,9 +179,6 @@
         }
         &__search {
             height: 40px;
-        }
-        &__search-active {
-            top: 39px;
         }
         &__input input {
             font-size: 19px;
@@ -206,7 +196,7 @@
     }
 
     .main {
-        margin: 70px 0;
+        margin: 85px 0;
         &__wrapper {
             columns: 1;
             grid-template-columns: repeat(1, 1fr);
@@ -225,16 +215,5 @@
 
     .notifications {
         line-height: 22px;
-    }
-
-    .back_to_top-show {
-        width: 30px;
-        svg {
-            width: 30px;
-        }
-    }
-
-    .back_to_top {
-        bottom: 35px;
     }
 }

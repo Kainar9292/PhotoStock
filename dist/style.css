@@ -453,7 +453,7 @@ template {
     .main__icon a {
       text-decoration: none;
       color: #DCDCDC;
-      margin: 3px; }
+      padding: 4px; }
     .main__icon a span:hover {
       color: #ffffff; }
   .main__screen {
@@ -656,34 +656,18 @@ template {
       columns: 2;
       grid-template-columns: repeat(2, 1fr);
       padding: 20px 0; }
-    .main__icon {
-      height: 60px; }
     .main__spinner {
       width: 30px; }
     .main .icon__img svg {
-      width: 20px;
-      height: 20px;
-      margin: 0px 10px; }
+      margin: 0px 15px; }
+    .main .icon__img i {
+      padding: 5px; }
     .main .icon-screen {
       height: 65px; } }
 
 @media (max-width: 575px) {
   .header__wrapp {
     padding: 0 20px; }
-  .header__hamburger {
-    width: 26px;
-    height: 12px; }
-    .header__hamburger span {
-      margin-bottom: 2px;
-      width: 100%; }
-    .header__hamburger-active span {
-      margin-bottom: -2px; }
-      .header__hamburger-active span span:nth-child(1) {
-        transform: translateY(3px) rotate(-45deg); }
-      .header__hamburger-active span span:nth-child(2) {
-        display: none; }
-      .header__hamburger-active span span:nth-child(3) {
-        transform: translateY(3px) rotate(45deg); }
   .header__menu {
     width: 60%;
     padding: 90px 0 0 8%; }
@@ -694,18 +678,12 @@ template {
       width: 14px;
       height: 14px;
       margin-right: 5px; }
-  .header__wrapper {
-    height: 40px; }
-  .header__logo {
-    font-size: 16px; }
-    .header__logo img {
-      width: 25px;
-      height: 25px;
-      margin-right: 5px; }
+  .header__logo img {
+    width: 25px;
+    height: 25px;
+    margin-right: 5px; }
   .header__search {
     height: 40px; }
-  .header__search-active {
-    top: 39px; }
   .header__input input {
     font-size: 19px;
     height: 20px; }
@@ -717,7 +695,7 @@ template {
     line-height: 30px;
     padding: 0; }
   .main {
-    margin: 70px 0; }
+    margin: 85px 0; }
     .main__wrapper {
       columns: 1;
       grid-template-columns: repeat(1, 1fr); }
@@ -729,13 +707,7 @@ template {
     .main .history-display {
       margin: 10px; }
   .notifications {
-    line-height: 22px; }
-  .back_to_top-show {
-    width: 30px; }
-    .back_to_top-show svg {
-      width: 30px; }
-  .back_to_top {
-    bottom: 35px; } }
+    line-height: 22px; } }
 
 * {
   box-sizing: border-box;
